@@ -4,7 +4,9 @@
 
 
 Models::Models()
-{}
+{
+	printf("mmm\n");
+}
 
 void Models::LoadModel()
 {
@@ -91,8 +93,8 @@ int Models::getModelCount()
 	return ModelCount;
 }
 
-Mesh Models::getMesh(int indx)
+void Models::getMesh(vector<Mesh>* out_meshes)
 {
-	return meshes[indx];
+	*out_meshes = meshes;
 }
 

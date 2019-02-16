@@ -24,6 +24,7 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 // Returns the view matrix calculated using Euler Angles and the LookAt Matrix
 glm::mat4 Camera::GetViewMatrix()
 {
+	//printf("%f %f %f //\n", Position.x, Position.y, Position.z);
 	return glm::lookAt(Position, Position + Front, Up);
 }
 
@@ -44,6 +45,7 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 		Position -= Right * velocity;
 	if (direction == RIGHT)
 		Position += Right * velocity;
+	GetViewMatrix();
 }
 
 // Processes input received from a mouse input system. Expects the offset value in both the x and y direction.

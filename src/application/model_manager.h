@@ -20,7 +20,7 @@ public:
 	void setLocalModels(int indx, glm::mat4 model);
 	void setGlobalModels(int indx, glm::mat4 model);
 	int getModelCount();
-	Mesh getMesh(int indx);
+	void getMesh(vector<Mesh>* out_meshes);
 
 private:
 	std::vector< glm::vec3 > vertices;

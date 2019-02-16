@@ -4,17 +4,12 @@
 
 SceneManager::SceneManager()
 {
-	models = Models();
-	models.LoadModel();
+	printf("sss\n");
 }
 
-void SceneManager::manageScene()
+void SceneManager::manageScene(Models &models)
 {
 	rotatez += 0.1f;
-	for (int i = 0; i < models.getModelCount(); i++)
-	{
-		models.setGlobalModels(i, models.getLocalModels(i));
-	}
 
 	models.setLocalModels(0, glm::mat4(1.0f));
 	models.setLocalModels(0, glm::translate(models.getLocalModels(0), glm::vec3(0.0f, 0.0f, 0.0f)));
@@ -31,9 +26,4 @@ void SceneManager::manageScene()
 glm::vec3 SceneManager::getLighPosition()
 {
 	return lightPos;
-}
-
-Models SceneManager::getSceneModelsObject()
-{
-	return models;
 }

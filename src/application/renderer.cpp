@@ -1,32 +1,34 @@
 #include <glm/glm.hpp>
 #include "renderer.h"
-#include "../global_variables.h"
 
 
 
 Renderer::Renderer()
 {
-	scene = SceneManager();
+	printf("rrr\n");
+	//scene.getSceneModelsObject(models);
+	models.LoadModel();
+	ModelCount = models.getModelCount();
+	models.getMesh(&meshes);
 }
 
-void Renderer::Render(Shader shader, Shader skybox_shader, Skybox sky, Camera camera)
+void Renderer::Render(Shader shader, Shader skybox_shader, Camera &camera)
 {
-
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
-
-	for (unsigned int i = 0; i < scene.getSceneModelsObject().getModelCount(); i++)
+	scene.manageScene(models);
+	for (unsigned int i = 0; i < ModelCount; i++)
 	{
 		shader.use();
 		shader.setVec3("viewPos", camera.GetCameraPosition());
 		shader.setVec3("objColor", glm::vec3(0.95, 0.45, 0.25));
 		shader.setVec3("lightPos", scene.getLighPosition());
-		scene.manageScene();
-		shader.setMat4("model", scene.getSceneModelsObject().getLocalModels(i));
-		shader.setMat4("MVP", projection*view*scene.getSceneModelsObject().getLocalModels(i));
-		scene.getSceneModelsObject().getMesh(i).Draw(shader);
+		model = models.getGlobalModels(i);
+		shader.setMat4("model", model);
+		shader.setMat4("MVP", projection*view*model);
+		meshes[i].Draw(shader);
 	}
 
 	glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content

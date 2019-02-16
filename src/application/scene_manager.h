@@ -7,14 +7,11 @@
 class SceneManager
 {
 public:
-	Models models;
-
 	glm::vec3 lightPos = glm::vec3(200.0f, 100.0f, 100.0f);
 
 	SceneManager();
-	void manageScene();
+	void manageScene(Models &models);
 	glm::vec3 getLighPosition();
-	Models getSceneModelsObject();
 
 private:
 	float rotatez = 0.0;
