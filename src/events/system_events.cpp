@@ -24,3 +24,14 @@ void SystemEvents::setRenderEngineUIStatus(bool status)
 {
 	renderEngineUI = status;
 }
+
+bool SystemEvents::getFirstPersonCameraStatus()
+{
+	return FirstPersonCamera;
+}
+
+
+void SystemEvents::setFirstPersonCameraStatus(bool* status)
+{
+	FirstPersonCamera = *status;
+}

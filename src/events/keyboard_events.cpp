@@ -2,6 +2,7 @@
 
 
 
+
 KeyboardEvents::KeyboardEvents()
 {
 }
@@ -35,4 +36,15 @@ void KeyboardEvents::processInput(GLFWwindow *window, Camera &camera, float delt
 		sysEvents.setRenderEngineUIStatus(false);
 	else if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS)
 		sysEvents.setRenderEngineUIStatus(true);
+
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+	{
+		fpc = true;
+		sysEvents.setFirstPersonCameraStatus(&fpc);
+	}
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		fpc = false;
+		sysEvents.setFirstPersonCameraStatus(&fpc);
+	}
 }
