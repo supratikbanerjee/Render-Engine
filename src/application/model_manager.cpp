@@ -10,13 +10,19 @@ Models::Models()
 
 void Models::LoadModel()
 {
-	const char *obj[] = { "../Assets/models/eye.obj","../Assets/models/cubet.obj" };
-	const char *albedo[] = { "../Assets/textures/eye/eye_diffuse.png","" };
-	const char *normal[] = { "../Assets/textures/eye/eye_normal.png","" };
-	const char *metallic[] = { "../Assets/textures/eye/eye_metallic.png","" };
-	const char *roughness[] = { "../Assets/textures/eye/eye_roughness.png","" };
-	const char *ambient[] = { "../Assets/textures/eye/eye_ambient.png","" };
+	/*const char *obj[] = { "../Assets/models/spitfire.obj","../Assets/models/prop.obj", "../Assets/models/cubet.obj",  "../Assets/models/cubet.obj" };
+	const char *albedo[] = { "../Assets/textures/spitfire/spitfire_diffuse.png","../Assets/textures/prop/prop_diffuse.jpg","", ""};
+	const char *normal[] = { "../Assets/textures/spitfire/spitfire_normal.png","../Assets/textures/prop/prop_normal.jpg","",""};
+	const char *metallic[] = { "../Assets/textures/spitfire/spitfire_metallic.png","../Assets/textures/prop/prop_metallic.jpg","",""};
+	const char *roughness[] = { "../Assets/textures/spitfire/spitfire_roughness.png","../Assets/textures/prop/prop_roughness.jpg","",""};
+	const char *ambient[] = { "../Assets/textures/spitfire/spitfire_ambient.png","../Assets/textures/prop/prop_ambient.jpg","",""};*/
 
+	const char *obj[] = { "../Assets/models/axe.obj","../Assets/models/cubet.obj" };
+	const char *albedo[] = { "../Assets/textures/Axe/Axe_diffuse.png","" };
+	const char *normal[] = { "../Assets/textures/Axe/Axe_normal.png","" };
+	const char *metallic[] = { "../Assets/textures/Axe/Axe_metallic.png","" };
+	const char *roughness[] = { "../Assets/textures/Axe/Axe_roughness.png","" };
+	const char *ambient[] = { "../Assets/textures/Axe/Axe_ambient.png","" };
 	ModelCount = (sizeof(obj) / sizeof(obj[0]));
 
 	for (int i = 0; i < ModelCount; i++)
@@ -66,26 +72,26 @@ void Models::LoadModel()
 }
 
 
-glm::mat4 Models::getGlobalModels(int indx)
+void Models::getGlobalModels(int indx, glm::mat4* out_global)
 {
-	return global[indx];
+	*out_global = global[indx];
 }
 
 
-glm::mat4 Models::getLocalModels(int indx)
+void Models::getLocalModels(int indx, glm::mat4* out_local)
 {
-	return local[indx];
+	*out_local = local[indx];
 }
 
-void Models::setGlobalModels(int indx, glm::mat4 model)
+void Models::setGlobalModels(int indx, glm::mat4* model)
 {
-	global[indx] = model;
+	global[indx] = *model;
 }
 
 
-void Models::setLocalModels(int indx, glm::mat4 model)
+void Models::setLocalModels(int indx, glm::mat4* model)
 {
-	local[indx] = model;
+	local[indx] = *model;
 }
 
 int Models::getModelCount()
@@ -97,4 +103,10 @@ void Models::getMesh(vector<Mesh>* out_meshes)
 {
 	*out_meshes = meshes;
 }
+
+void Models::setHierarchyModels(int indx_cur, int indx_prev)
+{
+	global[indx_cur] = global[indx_prev] * local[indx_cur];
+}
+
 
