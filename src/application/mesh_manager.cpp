@@ -6,7 +6,12 @@ vector<unsigned int> indices;
 vector<Texture> textures;
 unsigned int VAO;
 
-Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
+Mesh::Mesh()
+{
+	printf("Mesh\n");	
+}
+
+void Mesh::CreateMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures)
 {
 	this->vertices = vertices;
 	this->indices = indices;
@@ -17,41 +22,54 @@ Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture
 
 void Mesh::Draw(Shader* shader)
 {
-	unsigned int diffuseNr = 1;
-	unsigned int normalNr = 1;
-	unsigned int metallicNr = 1;
-	unsigned int roughnessNr = 1;
-	unsigned int ambientNr = 1;
-
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 
-		string number;
 		string name = textures[i].type;
-		if (name == "texture_diffuse")
-			number = std::to_string(diffuseNr++);
-		else if (name == "texture_normal")
-			number = std::to_string(normalNr++);
-		else if (name == "texture_metallic")
-			number = std::to_string(metallicNr++);
-		else if (name == "texture_roughness")
-			number = std::to_string(roughnessNr++);
-		else if (name == "texture_ambient")
-			number = std::to_string(ambientNr++);
-		//printf("%s %d\n", (name + number).c_str(), i);
-		shader->setInt((name + number).c_str(), i);
+		shader->setInt((name).c_str(), i);
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
-
 	glBindVertexArray(VAO);
-	//glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 }
 
 
-unsigned int VBO, EBO;
+void Mesh::ShaderParameters(Shader* shader)
+{
+	/*ShaderManager.getDiffuseAdd(&diffuseAdd);
+	ShaderManager.getSpecularAdd(&specularAdd);
+	ShaderManager.getSmoothness(&smoothness);
+	ShaderManager.getOcclusion(&occlusion);
+	ShaderManager.getSpecDefMult(&specular_default_multiplier);
+	ShaderManager.getDiffuseColorTone(&diffuse_color_tone);*/
+
+	shader->setFloat("smoothness", smoothness);
+	shader->setFloat("occlusion", occlusion);
+	shader->setFloat("specularAdd", specularAdd);
+	shader->setFloat("diffuseAdd", diffuseAdd);
+	shader->setFloat("spec_def_mult", specular_default_multiplier);
+	shader->setVec3("diffuse_colorTone", diffuse_color_tone);
+
+	/*ShaderManager.getIOR(&ior);
+	ShaderManager.getRefRef(&reflection_refratoin_ratio);
+	ShaderManager.getFresnel(&fresnel);*/
+
+	shader->setFloat("IOR", ior);
+	shader->setFloat("ref", reflection_refratoin_ratio);
+	shader->setBool("fresn", fresnel);
+
+	//ShaderManager.getNormalMapping(&normalMapping);
+	shader->setBool("normalMapping", normal_mapping);
+
+	//ShaderManager.getMipMappingAuto(&mipmap_auto);
+	//ShaderManager.getMipMappingLevel(&mipmap_level);
+
+	shader->setFloat("mipmap_level", mipmap_level);
+	shader->setBool("mipmap_auto", mipmap_auto);
+}
+
 
 void Mesh::setupMesh()
 {
@@ -60,8 +78,6 @@ void Mesh::setupMesh()
 	glGenBuffers(1, &EBO);
 
 	glBindVertexArray(VAO);
-
-	//cout << (vertices.size() * sizeof(Vertex)) << endl;
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
@@ -74,9 +90,9 @@ void Mesh::setupMesh()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
 
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tex_coords));
 	glBindVertexArray(0);
 }

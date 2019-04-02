@@ -2,6 +2,7 @@
 
 Skybox::Skybox()
 {
+	printf("Skybox\n");
 	skyboxTex();
 }
 
@@ -61,13 +62,13 @@ void Skybox::skyboxTex()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-	cubemapTexture = TexLoad.loadCubemap(faces);
+	cubemap_texture = TexLoad.loadCubemap(faces);
 	//cubemapTexture = TexLoad.LoadHDR("../Assets/textures/skybox/HDR/river_walk_1_2k.hdr");
 }
 
 unsigned int Skybox::getCubemapTexture()
 {
-	return cubemapTexture;
+	return cubemap_texture;
 }
 
 unsigned int Skybox::getSkyboxVAO()

@@ -1,112 +1,74 @@
 #include "model_manager.h"
-#include "../utils/OBJ_Loader.h"
 
 
-
-Models::Models()
+Model::Model()
 {
-	printf("mmm\n");
+	printf("Model\n");
+	shader.CompileShaders("../Shaders/PBR/PBR.vs.glsl", "../Shaders/PBR/PBR3.fs");
 }
 
-void Models::LoadModel()
+void Model::setId(int *id)
 {
-	/*const char *obj[] = { "../Assets/models/spitfire.obj","../Assets/models/prop.obj", "../Assets/models/cubet.obj",  "../Assets/models/cubet.obj" };
-	const char *albedo[] = { "../Assets/textures/spitfire/spitfire_diffuse.png","../Assets/textures/prop/prop_diffuse.jpg","", ""};
-	const char *normal[] = { "../Assets/textures/spitfire/spitfire_normal.png","../Assets/textures/prop/prop_normal.jpg","",""};
-	const char *metallic[] = { "../Assets/textures/spitfire/spitfire_metallic.png","../Assets/textures/prop/prop_metallic.jpg","",""};
-	const char *roughness[] = { "../Assets/textures/spitfire/spitfire_roughness.png","../Assets/textures/prop/prop_roughness.jpg","",""};
-	const char *ambient[] = { "../Assets/textures/spitfire/spitfire_ambient.png","../Assets/textures/prop/prop_ambient.jpg","",""};*/
-
-	const char *obj[] = { "../Assets/models/axe.obj","../Assets/models/cubet.obj" };
-	const char *albedo[] = { "../Assets/textures/Axe/Axe_diffuse.png","" };
-	const char *normal[] = { "../Assets/textures/Axe/Axe_normal.png","" };
-	const char *metallic[] = { "../Assets/textures/Axe/Axe_metallic.png","" };
-	const char *roughness[] = { "../Assets/textures/Axe/Axe_roughness.png","" };
-	const char *ambient[] = { "../Assets/textures/Axe/Axe_ambient.png","" };
-	ModelCount = (sizeof(obj) / sizeof(obj[0]));
-
-	for (int i = 0; i < ModelCount; i++)
-	{
-		global.push_back(glm::mat4(1.0f));
-		local.push_back(glm::mat4(1.0f));
-		bool res = loadOBJ(obj[i], vertices, uvs, normals, tangent, bitangent);
-
-		for (int j = 0; j < vertices.size(); j++)
-		{
-			vertex.Position = vertices[j];
-			vertex.Normal = normals[j];
-			vertex.TexCoords = uvs[j];
-			//vertex.Tangent = tangent[j];
-			//vertex.Bitangent = bitangent[j];
-			vertexes.push_back(vertex);
-			indices.push_back(j);
-		}
-
-		// TODO: refactor texture importing
-
-		texture.id = TexLoad.TextureFromFile(albedo[i]);
-		texture.type = "texture_diffuse";
-		textures.push_back(texture);
-		texture.id = TexLoad.TextureFromFile(normal[i]);
-		texture.type = "texture_normal";
-		textures.push_back(texture);
-		texture.id = TexLoad.TextureFromFile(metallic[i]);
-		texture.type = "texture_metallic";
-		textures.push_back(texture);
-		texture.id = TexLoad.TextureFromFile(roughness[i]);
-		texture.type = "texture_roughness";
-		textures.push_back(texture);
-		texture.id = TexLoad.TextureFromFile(ambient[i]);
-		texture.type = "texture_ambient";
-		textures.push_back(texture);
-		meshes.push_back(Mesh(vertexes, indices, textures));
-		vertexes.clear();
-		vertices.clear();
-		uvs.clear();
-		tangent.clear();
-		bitangent.clear();
-		normals.clear();
-		textures.clear();
-		indices.clear();
-	}
+	this->id = *id;
 }
 
-
-void Models::getGlobalModels(int indx, glm::mat4* out_global)
+void Model::AddChild(Model *child)
 {
-	*out_global = global[indx];
+	children.push_back(child);
 }
 
-
-void Models::getLocalModels(int indx, glm::mat4* out_local)
+void Model::setGlobalTransform(glm::mat4 *global)
 {
-	*out_local = local[indx];
+	this->global = *global;
 }
 
-void Models::setGlobalModels(int indx, glm::mat4* model)
+void Model::setLocalTransform(glm::mat4 *local)
 {
-	global[indx] = *model;
+	this->local = *local;
 }
 
-
-void Models::setLocalModels(int indx, glm::mat4* model)
+void Model::setMesh(Mesh *mesh)
 {
-	local[indx] = *model;
+	this->mesh = mesh;
+}
+glm::mat4* Model::getGlobalTransform()
+{
+	return &this->global;
 }
 
-int Models::getModelCount()
+glm::mat4* Model::getLocalTransform()
 {
-	return ModelCount;
+	return &this->local;
 }
 
-void Models::getMesh(vector<Mesh>* out_meshes)
+void Model::getChildren(std::vector<Model*> &children)
 {
-	*out_meshes = meshes;
+	children = this->children;
 }
 
-void Models::setHierarchyModels(int indx_cur, int indx_prev)
+Mesh* Model::getMesh()
 {
-	global[indx_cur] = global[indx_prev] * local[indx_cur];
+	return this->mesh;
+}
+	
+Model* Model::getChild(int *idx)
+{
+	//printf("%d IDX\n", *idx);
+	return this->children[*idx];
 }
 
+void Model::getId(int &id)
+{
+	id = this->id;
+}
 
+int* Model::getChildCount()
+{
+	childCount = children.size();
+	return &childCount;
+}
+
+Shader* Model::getShader()
+{
+	return &shader;
+}

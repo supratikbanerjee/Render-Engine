@@ -12,64 +12,16 @@
 class Skybox
 {
 public:
+	Skybox();
+	unsigned int getCubemapTexture();
+	unsigned int getSkyboxVAO();
+
+private:
 	TextureLoader TexLoad;
-
-	unsigned int cubemapTexture;
+	unsigned int cubemap_texture;
 	unsigned int skyboxVAO, skyboxVBO;
-
-	/*float skyboxVertices[] = {
-		// positions          
-		-1.0f,  1.0f, -1.0f,
-		-1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-
-		-1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
-
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-
-		-1.0f, -1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
-
-		-1.0f,  1.0f, -1.0f,
-		 1.0f,  1.0f, -1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f, -1.0f,
-
-		-1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f,  1.0f
-	};*/
-
 	std::vector<std::string> faces
 	{
-		/*"../Assets/textures/skybox/right.jpg",
-		"../Assets/textures/skybox/left.jpg",
-		"../Assets/textures/skybox/top.jpg",
-		"../Assets/textures/skybox/bottom.jpg",
-		"../Assets/textures/skybox/front.jpg",
-		"../Assets/textures/skybox/back.jpg"*/
 
 		"../Assets/textures/skybox/posx.jpg",
 		"../Assets/textures/skybox/negx.jpg",
@@ -79,13 +31,7 @@ public:
 		"../Assets/textures/skybox/negz.jpg"
 	};
 
-
-	Skybox();
-
 	void skyboxTex();
 
-	unsigned int getCubemapTexture();
-
-	unsigned int getSkyboxVAO();
 };
 #endif

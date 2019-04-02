@@ -3,42 +3,49 @@
 
 
 
-Renderer::Renderer()
+Renderer::Renderer(Model *models, SceneManager* scene, Transforms* transform)
 {
-	printf("rrr\n");
-	//scene.getSceneModelsObject(models);
-	models.LoadModel();
-	ModelCount = models.getModelCount();
-	models.getMesh(&meshes);
+	printf("Renderer\n");
+	this->transform = transform;
+	//printf("Renderer %d", transform);
+	this->models = models;
+	this->scene = scene;
 }
 
-void Renderer::Render(Shader* shader, Shader skybox_shader, Camera &camera, vfGizmo3DClass& getGizmo)
+void Renderer::Render(Shader *skybox_shader, Camera *camera)
 {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glm::mat4 view = camera.GetViewMatrix();
-	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
-	scene.manageScene(temp_active_var, models, camera);
-	for (unsigned int i = 0; i < ModelCount; i++)
+	glm::mat4 view = camera->GetViewMatrix();
+	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
+
+	// TODO
+	// CHANGE RENDER MESH TO RENDER MODEL
+	// CHANGE TO CALL RENDER MESH RECURSIVELY
+	UpdateTransform(models);
+	for (int i = 0; i < *models->getChildCount(); i++)
 	{
 		//printf("%f %f %f\n", camera.GetCameraPosition().x, camera.GetCameraPosition().y, camera.GetCameraPosition().z);
+		object = models->getChild(&i);
+		shader = object->getShader();
 		shader->use();
-		shader->setVec3("viewPos", camera.GetCameraPosition());
-		shader->setVec3("objColor", glm::vec3(0.95, 0.45, 0.25));
-		shader->setVec3("lightPos", scene.getLighPosition());
-		ShaderParameters(shader);
-		models.getGlobalModels(i, &model);
-		//getGizmo.applyTransform(model);
-		shader->setMat4("model", model);
-		shader->setMat4("MVP", projection*view*model);
-		meshes[i].Draw(shader);
+		shader->setVec3("viewPos", camera->GetCameraPosition());
+		shader->setVec3("lightPos", scene->getLighPosition());
+		
+		model = models->getGlobalTransform();
+		shader->setMat4("model", *model);
+		shader->setMat4("MVP", projection*view* *model);
+
+		mesh = object->getMesh();
+		mesh->Draw(shader);
+		mesh->ShaderParameters(shader);
 	}
 
-	glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
-	skybox_shader.use();
-	view = glm::mat4(glm::mat3(camera.GetViewMatrix())); // remove translation from the view matrix
-	skybox_shader.setMat4("view", view);
-	skybox_shader.setMat4("projection", projection);
+	glDepthFunc(GL_LEQUAL);
+	skybox_shader->use();
+	view = glm::mat4(glm::mat3(camera->GetViewMatrix()));
+	skybox_shader->setMat4("view", view);
+	skybox_shader->setMat4("projection", projection);
 
 	// skybox cube
 	glBindVertexArray(sky.getSkyboxVAO());
@@ -46,43 +53,18 @@ void Renderer::Render(Shader* shader, Shader skybox_shader, Camera &camera, vfGi
 	glBindTexture(GL_TEXTURE_CUBE_MAP, sky.getCubemapTexture());
 	//glBindTexture(GL_TEXTURE_2D, sky.getCubemapTexture());
 
-	skybox_shader.setInt("skybox", 0);
+	skybox_shader->setInt("skybox", 0);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glDepthFunc(GL_LESS); // set depth function back to default
+	glDepthFunc(GL_LESS);
 }
 
-void Renderer::ShaderParameters(Shader* shader)
+void Renderer::UpdateTransform(Model* model)
 {
-	ShaderManager.getDiffuseAdd(&diffuseAdd);
-	ShaderManager.getSpecularAdd(&specularAdd);
-	ShaderManager.getSmoothness(&smoothness);
-	ShaderManager.getOcclusion(&occlusion);
-	ShaderManager.getSpecDefMult(&spec_def_mult);
-	ShaderManager.getDiffuseColorTone(&diffuse_colorTone);
-
-	shader->setFloat("smoothness", smoothness);
-	shader->setFloat("occlusion", occlusion);
-	shader->setFloat("specularAdd", specularAdd);
-	shader->setFloat("diffuseAdd", diffuseAdd);
-	shader->setFloat("spec_def_mult", spec_def_mult);
-	shader->setVec3("diffuse_colorTone", diffuse_colorTone);
-
-	ShaderManager.getIOR(&IOR);
-	ShaderManager.getRefRef(&ref_ref);
-	ShaderManager.getFresnel(&fresn);
-
-	shader->setFloat("IOR", IOR);
-	shader->setFloat("ref", ref_ref);
-	shader->setBool("fresn", fresn);
-
-	ShaderManager.getNormalMapping(&normalMapping);
-	shader->setBool("normalMapping", normalMapping);
-
-	ShaderManager.getMipMappingAuto(&mipmap_auto);
-	ShaderManager.getMipMappingLevel(&mipmap_level);
-
-	shader->setFloat("mipmap_level", mipmap_level);
-	shader->setBool("mipmap_auto", mipmap_auto);
-
-
+	glm::mat4 global = *model->getGlobalTransform();
+	global = glm::scale(glm::mat4(1.0f), transform->scale);
+	global = glm::translate(global, transform->translation);
+	global = glm::rotate(global, transform->rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	global = glm::rotate(global, transform->rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	global = glm::rotate(global, transform->rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	model->setGlobalTransform(&global);
 }
