@@ -1,9 +1,11 @@
 #include "demo_ui.h"
+#include <iostream>
 
 
 
 DemoUI::DemoUI()
 {
+	printf("DemoUI\n");
 }
 
 void DemoUI::DrawUI()

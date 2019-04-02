@@ -4,19 +4,7 @@
 
 TransformsManagerUI::TransformsManagerUI()
 {
-	printf("TTT\n");
-	translation_scaling_factor = 0.1;
-	angleX = 0.0f;
-	angleY = 0.0f;
-	angleZ = 0.0f;
-
-	translateX = 0.0f;
-	translateY = 0.0f;
-	translateZ = 0.0f;
-
-	rotation_mode = 0;
-	rotateAngel = 0.0f;
-	rotate = glm::vec3(0.0f);
+	printf("Transform Manager\n");
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	//window_flags |= ImGuiWindowFlags_NoScrollbar;
 	//window_flags |= ImGuiWindowFlags_MenuBar;
@@ -29,100 +17,50 @@ TransformsManagerUI::TransformsManagerUI()
 
 }
 
-void TransformsManagerUI::DrawTransformsManagerUI(bool* p_open)
+void TransformsManagerUI::DrawTransformsManagerUI(Transforms* transform, bool* p_open)
 {
+	//printf("TransformManager %d", transform);
+
 	//ImGui::SetWindowSize(ImVec2(400, 400));
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_FirstUseEver);
 	ImGui::Begin("Transforms", p_open, window_flags);
-	ImGui::Text("Transforms\n");
-	ImGui::Text("\n");
-	ImGui::Text("Translation\n");
-	ImGui::Text("\n");
-	ImGui::Text("Translation Scaling Factor");
-	ImGui::SliderFloat(" ", &translation_scaling_factor, 0.0, 1.0f);
-	ImGui::Text("\n");
-	ImGui::SliderFloat(" Translate X", &translateX, -100.0f, 100.0f);
-	ImGui::SliderFloat(" Translate Y", &translateY, -100.0f, 100.0f);
-	ImGui::SliderFloat(" Translate Z", &translateZ, -100.0f, 100.0f);
-	ImGui::Text("\n");
-	ImGui::InputFloat(" T-X", &translateX);
-	ImGui::InputFloat(" T-Y", &translateY);
-	ImGui::InputFloat(" T-Z", &translateZ);
-	ImGui::Text("\n");
-	ImGui::Text("Rotation\n");
-	ImGui::Text("\n");
-	ImGui::RadioButton("Euler-Angle", &rotation_mode, 0); ImGui::SameLine();
-	ImGui::RadioButton(" Quaternion", &rotation_mode, 1);
-	ImGui::Text("\n");
-	ImGui::SliderAngle(" Rotate X", &angleX);
-	if (ImGui::IsItemActive())
+
+	ImGui::DragFloat3("Position", &transform->translation[0], 0.01f);
+	ImGui::DragFloat3("Rotation", &transform->rotation[0], 0.01f);
+	ImGui::DragFloat3("Scale", &transform->scale[0], 0.01f);
+	//ImGui::RadioButton("Euler-Angle", &rotation_mode, 0);
+	//ImGui::RadioButton(" Quaternion", &rotation_mode, 1);
+	ImGui::Text("Auto Rotate");
+	ImGui::Checkbox("X", &auto_rotate_x);
+	ImGui::SameLine();
+	ImGui::Checkbox("Y", &auto_rotate_y);
+	ImGui::SameLine();
+	ImGui::Checkbox("Z", &auto_rotate_z);
+	ImGui::SliderFloat("Rotation Speed", &auto_rotate_speed, 0.0f, 5.0f);
+
+	if (ImGui::TreeNode("Trees"))
 	{
-		rotateAngel = angleX;
-		rotate = glm::vec3(1.0f, 0.0f, 0.0f);
-	}
-	ImGui::SliderAngle(" Rotate Y", &angleY);
-	if (ImGui::IsItemActive())
-	{
-		rotateAngel = angleY;
-		rotate = glm::vec3(0.0f, 1.0f, 0.0f);
-	}
-	ImGui::SliderAngle(" Rotate Z", &angleZ);
-	if (ImGui::IsItemActive())
-	{
-		rotateAngel = angleZ;
-		rotate = glm::vec3(0.0f, 0.0f, 1.0f);
+		if (ImGui::TreeNode("Basic trees"))
+		{
+			for (int i = 0; i < 5; i++)
+				if (ImGui::TreeNode((void*)(intptr_t)i, "Child %d", i))
+				{
+					ImGui::Text("blah blah");
+					ImGui::SameLine();
+					if (ImGui::SmallButton("button")) {};
+					ImGui::TreePop();
+				}
+			ImGui::TreePop();
+		}
 	}
 
-	ImGui::Text("\n");
-	ImGui::InputFloat(" R-X", &angleX);
-	ImGui::InputFloat(" R-Y", &angleY);
-	ImGui::InputFloat(" R-Z", &angleZ);
-	ImGui::Text("\n");
-	ImGui::Checkbox("Auto Rotate", &AutoRotate);
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::End();
 
-}
-
-
-void TransformsManagerUI::getRotateX(float* out_angle)
-{
-	*out_angle = angleX;
-}
-void TransformsManagerUI::getRotateY(float* out_angle)
-{
-	*out_angle = angleY;
-}
-void TransformsManagerUI::getRotateZ(float* out_angle)
-{
-	*out_angle = angleZ;
-}
-
-void TransformsManagerUI::getTranslateX(float* out_translate)
-{
-	*out_translate = translateX;
-}
-void TransformsManagerUI::getTranslateY(float* out_translate)
-{
-	*out_translate = translateY;
-}
-void TransformsManagerUI::getTranslateZ(float* out_translate)
-{
-	*out_translate = translateZ;
-}
-
-void TransformsManagerUI::getTranslationScalingFactor(float* scale)
-{
-	*scale = translation_scaling_factor;
-}
-
-void TransformsManagerUI::getQuatRotate(float* angle, glm::vec3* direction)
-{
-	*angle = rotateAngel;
-	*direction = rotate;
-}
-
-void TransformsManagerUI::getAutoRotate(bool* out_AutoRotate)
-{
-	*out_AutoRotate = AutoRotate;
+	if (auto_rotate_x)
+		transform->rotation.x += 0.01f * auto_rotate_speed;
+	if (auto_rotate_y)
+		transform->rotation.y += 0.01f * auto_rotate_speed;
+	if (auto_rotate_z)
+		transform->rotation.z += 0.01f * auto_rotate_speed;
 }
