@@ -10,7 +10,7 @@ class Shader
 public:
 	unsigned int shaderProgramID;
 
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader();
 
 	char* readShaderSource(const char* shaderFile);
 

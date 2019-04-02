@@ -75,9 +75,8 @@ void Shader::CompileShaders(const char* vertexPath, const char* fragmentPath)
 	}
 }
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+Shader::Shader()
 {
-	CompileShaders(vertexPath, fragmentPath);
 }
 
 void Shader::use()

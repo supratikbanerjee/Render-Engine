@@ -1,7 +1,9 @@
 #include "texture_loader.h"
 
 TextureLoader::TextureLoader()
-{}
+{
+	printf("Texture Loader\n");
+}
 
 unsigned int TextureLoader::loadCubemap(std::vector<std::string> faces)
 {
