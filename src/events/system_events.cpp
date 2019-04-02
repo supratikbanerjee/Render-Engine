@@ -4,7 +4,9 @@
 
 
 SystemEvents::SystemEvents()
-{}
+{
+	printf("System Events\n");
+}
 
 bool SystemEvents::getProcessMouseMovementStatus()
 {
