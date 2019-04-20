@@ -13,6 +13,7 @@ public:
 	int* getActiveMeshId();
 	int* getMeshCount();
 	Mesh* getActiveMesh();
+	std::string* getMeshName(int*);
 
 private:
 	Model* models;

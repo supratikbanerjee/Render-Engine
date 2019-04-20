@@ -11,7 +11,6 @@ public:
 	
 	ModelLoader();
 	Model* LoadModel();
-	int getModelCount();
 
 private:
 	std::vector< glm::vec3 > vertices;
@@ -32,6 +31,7 @@ private:
 	Texture texture;
 	int mesh_count;
 	Model root;
+	std::string default_mat = "../Assets/defaults/default_material.png";
 	//vector<Mesh*> meshes;
 	TextureLoader TexLoader;
 

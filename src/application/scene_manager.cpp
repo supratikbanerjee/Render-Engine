@@ -32,3 +32,8 @@ glm::vec3 SceneManager::getLighPosition()
 {
 	return lightPos;
 }
+
+std::string* SceneManager::getMeshName(int* id)
+{
+	return models->getChild(id)->getName();
+}

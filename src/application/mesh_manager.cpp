@@ -38,34 +38,23 @@ void Mesh::Draw(Shader* shader)
 
 void Mesh::ShaderParameters(Shader* shader)
 {
-	/*ShaderManager.getDiffuseAdd(&diffuseAdd);
-	ShaderManager.getSpecularAdd(&specularAdd);
-	ShaderManager.getSmoothness(&smoothness);
-	ShaderManager.getOcclusion(&occlusion);
-	ShaderManager.getSpecDefMult(&specular_default_multiplier);
-	ShaderManager.getDiffuseColorTone(&diffuse_color_tone);*/
+	shader->setFloat("light_energy", light_energy);
 
-	shader->setFloat("smoothness", smoothness);
+	shader->setVec3("base_color", base_color);
+	shader->setFloat("subsurface", subsurface);
+	shader->setVec3("subsurface_color", subsurface_color);
+	shader->setVec3("subsurface_radius", subsurface_radius);
+	shader->setFloat("p_metallic", metallic);
+	shader->setFloat("specular", specular);
+	shader->setFloat("p_roughness", roughness);
+	
 	shader->setFloat("occlusion", occlusion);
-	shader->setFloat("specularAdd", specularAdd);
-	shader->setFloat("diffuseAdd", diffuseAdd);
-	shader->setFloat("spec_def_mult", specular_default_multiplier);
-	shader->setVec3("diffuse_colorTone", diffuse_color_tone);
-
-	/*ShaderManager.getIOR(&ior);
-	ShaderManager.getRefRef(&reflection_refratoin_ratio);
-	ShaderManager.getFresnel(&fresnel);*/
-
+	shader->setBool("dipole", dipole);
+	shader->setBool("paralax_map", paralax_map);
 	shader->setFloat("IOR", ior);
 	shader->setFloat("ref", reflection_refratoin_ratio);
 	shader->setBool("fresn", fresnel);
-
-	//ShaderManager.getNormalMapping(&normalMapping);
 	shader->setBool("normalMapping", normal_mapping);
-
-	//ShaderManager.getMipMappingAuto(&mipmap_auto);
-	//ShaderManager.getMipMappingLevel(&mipmap_level);
-
 	shader->setFloat("mipmap_level", mipmap_level);
 	shader->setBool("mipmap_auto", mipmap_auto);
 }

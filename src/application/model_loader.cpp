@@ -9,13 +9,21 @@ ModelLoader::ModelLoader()
 
 Model* ModelLoader::LoadModel()
 {
+	std::string base = "../Assets/";
+	std::string model_dir = "models/";
+	std::string texture_dir = "textures/";
+	std::string model = "Head/";
+	std::string temp;
+	const char* dir;
 
-	const char *obj[] = { "../Assets/models/dragonbody.obj","../Assets/models/dragonchain.obj"};
-	const char *albedo[] = { "../Assets/textures/dragonbody/dragonbody_diffuse.png", "../Assets/textures/dragonchain/dragonchain_diffuse.png"};
-	const char *normal[] = { "../Assets/textures/dragonbody/dragonbody_normal.png", "../Assets/textures/dragonchain/dragonchain_normal.png"};
-	const char *metallic[] = { "../Assets/textures/dragonbody/dragonbody_metallic.png", "../Assets/textures/dragonchain/dragonchain_metallic.png"};
-	const char *roughness[] = { "../Assets/textures/dragonbody/dragonbody_roughness.png", "../Assets/textures/dragonchain/dragonchain_roughness.png"};
-	const char *ambient[] = { "../Assets/textures/dragonbody/dragonbody_ambient.png","../Assets/textures/dragonchain/dragonchain_ambient.png"};
+	const char* obj[] = { "head.obj" };
+	const char* albedo[] = { "lambertian.jpg" };
+	const char* normal[] = { "perry_normal.png" };
+	const char* metallic[] = { "" };
+	const char* roughness[] = { "" };
+	const char* ambient[] = { "out_occlusion.bmp" };
+	const char* specular[] = { "out_translucency.bmp" };
+	const char* depth[] = { "bump.png" };
 
 	mesh_count = (sizeof(obj) / sizeof(obj[0]));
 	root.setLocalTransform(&identity);
@@ -25,8 +33,10 @@ Model* ModelLoader::LoadModel()
 
 	for (int i = 0; i < mesh_count; i++)
 	{
-
-		bool res = loadOBJ(obj[i], vertices, uvs, normals, tangent, bitangent);
+		temp = base + model_dir + model;
+		temp.append(obj[i]);
+		dir = temp.c_str();
+		bool res = loadOBJ(dir, vertices, uvs, normals, tangent, bitangent);
 
 		for (int j = 0; j < vertices.size(); j++)
 		{
@@ -40,38 +50,89 @@ Model* ModelLoader::LoadModel()
 		}
 
 		// TODO: refactor texture importing
-
-		texture.id = TexLoader.TextureFromFile(albedo[i]);
+		if (albedo[i] != "")
+		{
+			temp = base + texture_dir + model;
+			temp.append(albedo[i]);
+		}
+		else
+			temp = default_mat;
+		dir = temp.c_str();
+		texture.id = TexLoader.TextureFromFile(dir);
 		texture.type = "texture_diffuse";
 		textures.push_back(texture);
-		texture.id = TexLoader.TextureFromFile(normal[i]);
+		if (normal[i] != "")
+		{
+			temp = base + texture_dir + model;
+			temp.append(normal[i]);
+		}
+		else
+			temp = default_mat;
+		dir = temp.c_str();
+		texture.id = TexLoader.TextureFromFile(dir);
 		texture.type = "texture_normal";
 		textures.push_back(texture);
-		texture.id = TexLoader.TextureFromFile(metallic[i]);
+
+		if (metallic[i] != "")
+		{
+			temp = base + texture_dir + model;
+			temp.append(metallic[i]);
+		}
+		else
+			temp = default_mat;
+		dir = temp.c_str();
+		texture.id = TexLoader.TextureFromFile(dir);
 		texture.type = "texture_metallic";
 		textures.push_back(texture);
-		texture.id = TexLoader.TextureFromFile(roughness[i]);
+		if (roughness[i] != "")
+		{
+			temp = base + texture_dir + model;
+			temp.append(roughness[i]);
+		}
+		else
+			temp = default_mat;
+		dir = temp.c_str();
+		texture.id = TexLoader.TextureFromFile(dir);
 		texture.type = "texture_roughness";
 		textures.push_back(texture);
-		texture.id = TexLoader.TextureFromFile(ambient[i]);
-		texture.type = "texture_ambient";
+		if (specular[i] != "")
+		{
+			temp = base + texture_dir + model;
+			temp.append(specular[i]);
+		}
+		else
+			temp = default_mat;
+		dir = temp.c_str();
+		texture.id = TexLoader.TextureFromFile(dir);
+		texture.type = "texture_specular";
 		textures.push_back(texture);
 
+		if (depth[i] != "")
+		{
+			temp = base + texture_dir + model;
+			temp.append(depth[i]);
+		}
+		else
+			temp = default_mat;
+		dir = temp.c_str();
+		texture.id = TexLoader.TextureFromFile(dir);
+		texture.type = "texture_depth";
+		textures.push_back(texture);
+		
+
+		//name = model.substr(0, model.length()-1);
 		Mesh *mesh = new Mesh();
 		Model *child = new Model();
 		mesh->CreateMesh(vertexes, indices, textures);
-
+		std::string name = obj[i];
+		name = std::string(obj[i], 0, name.length() - 4);
+		child->setName(&name);
 		child->setId(&i);
-
 		child->setMesh(mesh);
-
 		child->setLocalTransform(&identity);
-
 		global = *root.getGlobalTransform();
 		local = *child->getLocalTransform();
-
 		child->setGlobalTransform(&(global * local));
-
 		root.AddChild(child);
 
 		vertexes.clear();
@@ -84,9 +145,4 @@ Model* ModelLoader::LoadModel()
 		indices.clear();
 	}
 	return &root;
-}
-
-int ModelLoader::getModelCount()
-{
-	return mesh_count;
 }

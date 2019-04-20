@@ -4,12 +4,17 @@
 Model::Model()
 {
 	printf("Model\n");
-	shader.CompileShaders("../Shaders/PBR/PBR.vs.glsl", "../Shaders/PBR/PBR3.fs");
+	shader.CompileShaders("../Shaders/PBR/PBR.vs.glsl", "../Shaders/PBR/P_BSDF.frag");
 }
 
 void Model::setId(int *id)
 {
 	this->id = *id;
+}
+
+void Model::setName(std::string* name)
+{
+	this->name = *name;
 }
 
 void Model::AddChild(Model *child)
@@ -71,4 +76,9 @@ int* Model::getChildCount()
 Shader* Model::getShader()
 {
 	return &shader;
+}
+
+std::string* Model::getName()
+{
+	return &name;
 }

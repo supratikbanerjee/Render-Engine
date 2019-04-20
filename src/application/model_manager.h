@@ -12,6 +12,7 @@ public:
 	void setGlobalTransform(glm::mat4*);
 	void setMesh(Mesh*);
 	void setId(int*);
+	void setName(std::string*);
 
 	glm::mat4* getLocalTransform();
 	glm::mat4* getGlobalTransform();
@@ -21,6 +22,7 @@ public:
 	Mesh* getMesh();
 	void getId(int&);
 	Shader* getShader();
+	std::string* getName();
 
 private:
 	Shader shader;

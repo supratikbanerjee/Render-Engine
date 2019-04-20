@@ -30,21 +30,29 @@ public:
 	void Draw(Shader* shader);
 	void ShaderParameters(Shader*);
 
+	float light_energy = 5.0;
 	// Shader Parameters
-	float diffuseAdd = 1.0;
-	float specularAdd = 1.0;
-	float smoothness = 1.0;
+	glm::vec3 base_color = glm::vec3(1.0f);
+	float subsurface = 0.0;
+	glm::vec3 subsurface_radius = glm::vec3(1.0f);
+	glm::vec3 subsurface_color = glm::vec3(1.0f);
+	float metallic = 0.0;
+	float specular = 0.5;
+	float roughness = 0.5;
+
+
+
 	float occlusion = 0.0;
-	float specular_default_multiplier = 10.0;
+	
 	float reflection_refratoin_ratio = 0.0;
 	float ior = 1.5;
 	float mipmap_level = 1.0;
-
+	bool dipole = false;
+	bool paralax_map = false;
 	bool fresnel = false;
 	bool normal_mapping = true;
 	bool mipmap_auto = true;
 
-	glm::vec3 diffuse_color_tone = glm::vec3(1.0f);
 
 private:
 	
