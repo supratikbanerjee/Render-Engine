@@ -22,8 +22,8 @@ void SceneGraph::DrawSceneGraphUI(SceneManager* scene, bool* p_open)
 		{
 
 			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
-
-			bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, "Child Node %d", i);
+			const char* name = scene->getMeshName(&i)->c_str();
+			bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, name);
 			if (ImGui::IsItemClicked())
 			{
 				node_clicked = i;
