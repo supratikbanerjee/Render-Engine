@@ -9,7 +9,7 @@ ModelLoader::ModelLoader()
 
 Model* ModelLoader::LoadModel()
 {
-	std::string base = "../Assets/";
+	std::string base = "Assets/";
 	std::string model_dir = "models/";
 	std::string texture_dir = "textures/";
 	std::string model = "Head/";
@@ -132,7 +132,8 @@ Model* ModelLoader::LoadModel()
 		child->setLocalTransform(&identity);
 		global = *root.getGlobalTransform();
 		local = *child->getLocalTransform();
-		child->setGlobalTransform(&(global * local));
+		globalXlocal = global * local;
+		child->setGlobalTransform(&globalXlocal);
 		root.AddChild(child);
 
 		vertexes.clear();

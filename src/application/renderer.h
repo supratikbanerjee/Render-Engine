@@ -2,7 +2,7 @@
 #define RENDERER_H
 #include <glad/glad.h>
 #include "../utils/shader_manager.h"
-#include "../global_variables.h"
+//#include "../global_variables.h"
 #include "model_loader.h"
 #include "skybox.h"
 #include "camera.h"

@@ -4,7 +4,7 @@
 Model::Model()
 {
 	printf("Model\n");
-	shader.CompileShaders("../Shaders/PBR/PBR.vs.glsl", "../Shaders/PBR/P_BSDF.frag");
+	shader.CompileShaders("shaders/PBR/PBR.vs.glsl", "shaders/PBR/P_BSDF.frag");
 }
 
 void Model::setId(int *id)

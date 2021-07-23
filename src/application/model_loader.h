@@ -21,6 +21,7 @@ private:
 
 	glm::mat4 global;
 	glm::mat4 local;
+	glm::mat4 globalXlocal;
 
 	glm::mat4 identity = glm::mat4(1.0f);
 
@@ -31,7 +32,7 @@ private:
 	Texture texture;
 	int mesh_count;
 	Model root;
-	std::string default_mat = "../Assets/defaults/default_material.png";
+	std::string default_mat = "Assets/defaults/default_material.png";
 	//vector<Mesh*> meshes;
 	TextureLoader TexLoader;
 

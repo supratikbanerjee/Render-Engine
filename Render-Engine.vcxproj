@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{D254FAEC-3D87-48DF-8244-CFD8ECB112EF}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;E:\GIT\Render-Engine\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\application\camera.cpp" />
+    <ClCompile Include="src\application\mesh_manager.cpp" />
+    <ClCompile Include="src\application\model_loader.cpp" />
+    <ClCompile Include="src\application\model_manager.cpp" />
+    <ClCompile Include="src\application\renderer.cpp" />
+    <ClCompile Include="src\application\scene_manager.cpp" />
+    <ClCompile Include="src\application\skybox.cpp" />
+    <ClCompile Include="src\application\transforms.cpp" />
+    <ClCompile Include="src\events\keyboard_events.cpp" />
+    <ClCompile Include="src\events\mouse_events.cpp" />
+    <ClCompile Include="src\events\system_events.cpp" />
+    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_impl_glfw_gl3.cpp" />
+    <ClCompile Include="src\RenderEngine.cpp" />
+    <ClCompile Include="src\ui\demo_ui.cpp" />
+    <ClCompile Include="src\ui\scene_graph.cpp" />
+    <ClCompile Include="src\ui\shader_manager_ui.cpp" />
+    <ClCompile Include="src\ui\transforms_manager_ui.cpp" />
+    <ClCompile Include="src\ui\ui_manager.cpp" />
+    <ClCompile Include="src\utils\gizmo_manager.cpp" />
+    <ClCompile Include="src\utils\OBJ_Loader.cpp" />
+    <ClCompile Include="src\utils\quaternion_rotaiton.cpp" />
+    <ClCompile Include="src\utils\shader_manager.cpp" />
+    <ClCompile Include="src\utils\stbi_image.cpp" />
+    <ClCompile Include="src\utils\texture_loader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\application\camera.h" />
+    <ClInclude Include="src\application\mesh_manager.h" />
+    <ClInclude Include="src\application\model_loader.h" />
+    <ClInclude Include="src\application\model_manager.h" />
+    <ClInclude Include="src\application\renderer.h" />
+    <ClInclude Include="src\application\scene_manager.h" />
+    <ClInclude Include="src\application\skybox.h" />
+    <ClInclude Include="src\application\transforms.h" />
+    <ClInclude Include="src\events\keyboard_events.h" />
+    <ClInclude Include="src\events\mouse_events.h" />
+    <ClInclude Include="src\events\system_events.h" />
+    <ClInclude Include="src\imgui\imconfig.h" />
+    <ClInclude Include="src\imgui\imgui.h" />
+    <ClInclude Include="src\imgui\imgui_impl_glfw_gl3.h" />
+    <ClInclude Include="src\imgui\imgui_internal.h" />
+    <ClInclude Include="src\imgui\stb_rect_pack.h" />
+    <ClInclude Include="src\imgui\stb_textedit.h" />
+    <ClInclude Include="src\imgui\stb_truetype.h" />
+    <ClInclude Include="src\RenderEngine.h" />
+    <ClInclude Include="src\ui\demo_ui.h" />
+    <ClInclude Include="src\ui\scene_graph.h" />
+    <ClInclude Include="src\ui\shader_manager_ui.h" />
+    <ClInclude Include="src\ui\transforms_manager_ui.h" />
+    <ClInclude Include="src\ui\ui_manager.h" />
+    <ClInclude Include="src\utils\gizmo.h" />
+    <ClInclude Include="src\utils\gizmo_manager.h" />
+    <ClInclude Include="src\utils\OBJ_Loader.h" />
+    <ClInclude Include="src\utils\quaternion_rotaiton.h" />
+    <ClInclude Include="src\utils\shader_manager.h" />
+    <ClInclude Include="src\utils\stb_image.h" />
+    <ClInclude Include="src\utils\texture_loader.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
