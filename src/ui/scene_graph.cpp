@@ -15,9 +15,8 @@ void SceneGraph::DrawSceneGraphUI(SceneManager* scene, bool* p_open)
 {
 	ImGui::Begin("Scene Graph", p_open, ImVec2(0, 0), window_flags);
 	ImGui::SetWindowSize(ImVec2(335, 335), ImGuiCond_FirstUseEver);
-	int id = 0;
-	if (ImGui::TreeNode("Root"))
-	{
+    if (ImGui::TreeNode("Root"))
+    {
 		for (int i = 0; i < *scene->getMeshCount(); i++)
 		{
 
@@ -38,8 +37,8 @@ void SceneGraph::DrawSceneGraphUI(SceneManager* scene, bool* p_open)
 			{
 				selection_mask = (1 << node_clicked);
 			}
-
 		}
-	}
+        ImGui::TreePop();
+    }
 	ImGui::End();
 }

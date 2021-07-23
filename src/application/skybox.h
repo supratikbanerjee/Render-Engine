@@ -23,12 +23,12 @@ private:
 	std::vector<std::string> faces
 	{
 
-		"../Assets/textures/skybox/posx.jpg",
-		"../Assets/textures/skybox/negx.jpg",
-		"../Assets/textures/skybox/posy.jpg",
-		"../Assets/textures/skybox/negy.jpg",
-		"../Assets/textures/skybox/posz.jpg",
-		"../Assets/textures/skybox/negz.jpg"
+		"Assets/textures/skybox/posx.jpg",
+		"Assets/textures/skybox/negx.jpg",
+		"Assets/textures/skybox/posy.jpg",
+		"Assets/textures/skybox/negy.jpg",
+		"Assets/textures/skybox/posz.jpg",
+		"Assets/textures/skybox/negz.jpg"
 	};
 
 	void skyboxTex();
