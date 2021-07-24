@@ -12,18 +12,19 @@ Model* ModelLoader::LoadModel()
 	std::string base = "Assets/";
 	std::string model_dir = "models/";
 	std::string texture_dir = "textures/";
-	std::string model = "Head/";
+
+	std::string model = "dragonbody/";
 	std::string temp;
 	const char* dir;
 
-	const char* obj[] = { "head.obj" };
-	const char* albedo[] = { "lambertian.jpg" };
-	const char* normal[] = { "perry_normal.png" };
-	const char* metallic[] = { "" };
-	const char* roughness[] = { "" };
-	const char* ambient[] = { "out_occlusion.bmp" };
-	const char* specular[] = { "out_translucency.bmp" };
-	const char* depth[] = { "bump.png" };
+	const char* obj[] = { "plane_f.obj", "dragonbody.obj", "dragonchain.obj" };
+	const char* albedo[] = {"", "dragonbody_diffuse.png", "dragonchain_diffuse.png" };
+	const char* normal[] = {"", "dragonbody_normal.png", "dragonchain_normal.png" };
+	const char* metallic[] = {"", "dragonbody_metallic.png", "dragonchain_metallic.png" };
+	const char* roughness[] = {"", "dragonbody_roughness.png", "dragonchain_roughness.png" };
+	const char* ambient[] = {"", "dragonbody_ambient.png", "dragonchain_ambient.png" };
+	const char* specular[] = {"", "", "" };
+	const char* depth[] = {"", "", "" };
 
 	mesh_count = (sizeof(obj) / sizeof(obj[0]));
 	root.setLocalTransform(&identity);

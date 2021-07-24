@@ -57,6 +57,7 @@ void Mesh::ShaderParameters(Shader* shader)
 	shader->setBool("normalMapping", normal_mapping);
 	shader->setFloat("mipmap_level", mipmap_level);
 	shader->setBool("mipmap_auto", mipmap_auto);
+	shader->setBool("z_buffer", z_buffer);
 }
 
 

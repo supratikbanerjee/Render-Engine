@@ -55,6 +55,7 @@ uniform bool dipole = false;
 uniform bool roughness_tex = false;
 uniform bool normalMapping = false;
 uniform bool mipmap_auto = true;
+uniform bool z_buffer = false;
 
 
 float saturate(float a) { return clamp(a, 0.0, 1.0); }
@@ -325,5 +326,9 @@ void main()
     vec3 color = mix(BSDF, BSDF * ambient, occlusion); // change 1.0 as AO param
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 
-    frag_colour = vec4(color, 1.0); //vec4(color, 1.0);
+    
+    if(z_buffer)
+        frag_colour = vec4(vec3(gl_FragCoord.z), 1.0);
+    else
+        frag_colour = vec4(color, 1.0); //vec4(color, 1.0);
 }

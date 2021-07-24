@@ -52,6 +52,7 @@ public:
 	bool fresnel = false;
 	bool normal_mapping = true;
 	bool mipmap_auto = true;
+	bool z_buffer = false;
 
 
 private:

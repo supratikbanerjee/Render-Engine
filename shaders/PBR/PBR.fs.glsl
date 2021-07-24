@@ -100,5 +100,6 @@ void main()
     vec3 color = Lo;
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 
-    frag_colour = vec4(color, 1.0);
+    //frag_colour = vec4(color, 1.0);
+    frag_colour = vec4(vec3(gl_FragCoord.z), 1.0);
 }

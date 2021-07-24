@@ -56,5 +56,6 @@ void ShaderManagerUI::DrawShaderManagerUI(SceneManager* scene, bool* p_open)
 	ImGui::Checkbox("Paralax Mapping", &mesh->paralax_map);
 	ImGui::Checkbox("Normal Mapping", &mesh->normal_mapping);
 	ImGui::Checkbox("Mipamap Auto", &mesh->mipmap_auto);
+	ImGui::Checkbox("Z-Buffer", &mesh->z_buffer);
 	ImGui::End();
 }
