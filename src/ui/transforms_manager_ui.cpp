@@ -22,7 +22,7 @@ void TransformsManagerUI::DrawTransformsManagerUI(Transforms* transform, bool* p
 	//printf("TransformManager %d", transform);
 
 	//ImGui::SetWindowSize(ImVec2(400, 400));
-	ImGui::SetNextWindowPos(ImVec2(0, 50), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowPos(ImVec2(0, 100), ImGuiCond_FirstUseEver);
 	ImGui::Begin("Transforms", p_open, window_flags);
 
 	ImGui::DragFloat3("Position", &transform->translation[0], 0.01f);

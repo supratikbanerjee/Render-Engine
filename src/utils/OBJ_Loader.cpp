@@ -101,7 +101,7 @@ bool loadOBJ(const char * path, std::vector < glm::vec3 > & out_vertices, std::v
 			normalIndices.push_back(normalIndex[2]);
 		}
 	}
-	printf("%d %d\n", temp_vertices.size(), normalIndices.size());
+	printf("%d %d\n", temp_vertices.size(), vertexIndices.size());
 
 	/*for (unsigned int i = 0; i < vertexIndices.size(); i++)
 	{

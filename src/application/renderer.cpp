@@ -2,7 +2,6 @@
 #include "renderer.h"
 
 
-
 Renderer::Renderer(Model *models, SceneManager* scene, Transforms* transform)
 {
 	printf("Renderer\n");
@@ -16,12 +15,18 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 {
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glm::mat4 view = camera->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
 
+	glGenQueries(1, &query);
+	glBeginQuery(GL_SAMPLES_PASSED, query);
+		//Draw stuff
+		
 	// TODO
 	// CHANGE RENDER MESH TO RENDER MODEL
 	// CHANGE TO CALL RENDER MESH RECURSIVELY
+
 	UpdateTransform(models);
 	for (int i = 0; i < *models->getChildCount(); i++)
 	{
@@ -40,7 +45,9 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 		mesh->Draw(shader);
 		mesh->ShaderParameters(shader);
 	}
-
+	glEndQuery(GL_SAMPLES_PASSED);
+	glGetQueryObjectuiv(query, GL_QUERY_RESULT, &value);
+	printf("%d\n", value);
 	glDepthFunc(GL_LEQUAL);
 	skybox_shader->use();
 	view = glm::mat4(glm::mat3(camera->GetViewMatrix()));
