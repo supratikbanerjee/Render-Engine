@@ -2,27 +2,26 @@
 #include "renderer.h"
 
 
-Renderer::Renderer(Model *models, SceneManager* scene, Transforms* transform)
+Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Transforms* transform)
 {
 	printf("Renderer\n");
 	this->transform = transform;
 	//printf("Renderer %d", transform);
 	this->models = models;
 	this->scene = scene;
+	this->metrics = metrics;
 }
 
 void Renderer::Render(Shader *skybox_shader, Camera *camera)
 {
-	drawcalls = 0;
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glm::mat4 view = camera->GetViewMatrix();
 	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
 
-	glGenQueries(1, &query);
-	glBeginQuery(GL_SAMPLES_PASSED, query);
-		//Draw stuff
+	RenderQueryBegin();
+	//Draw stuff
 		
 	// TODO
 	// CHANGE RENDER MESH TO RENDER MODEL
@@ -35,6 +34,7 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 		object = models->getChild(&i);
 		shader = object->getShader();
 		shader->use();
+		setPassCalls++;
 		shader->setVec3("viewPos", camera->GetCameraPosition());
 		shader->setVec3("lightPos", scene->getLighPosition());
 		
@@ -47,9 +47,10 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 		drawcalls++;
 		mesh->ShaderParameters(shader);
 	}
-	glEndQuery(GL_SAMPLES_PASSED);
-	glGetQueryObjectuiv(query, GL_QUERY_RESULT, &value);
-	printf("%d %d\n", value, drawcalls);
+
+	RenderQUeryEnd();
+	WriteRenderingMetrics();
+
 	glDepthFunc(GL_LEQUAL);
 	skybox_shader->use();
 	view = glm::mat4(glm::mat3(camera->GetViewMatrix()));
@@ -65,6 +66,34 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 	skybox_shader->setInt("skybox", 0);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDepthFunc(GL_LESS);
+}
+
+void Renderer::RenderQueryBegin()
+{
+	glGenQueries(1, &query1);
+	glBeginQuery(GL_SAMPLES_PASSED, query1);
+
+	glGenQueries(1, &query2);
+	glBeginQuery(GL_PRIMITIVES_GENERATED, query2);
+}
+
+void Renderer::RenderQUeryEnd()
+{
+	glEndQuery(GL_SAMPLES_PASSED);
+	glGetQueryObjectuiv(query1, GL_QUERY_RESULT, &frag);
+
+	glEndQuery(GL_PRIMITIVES_GENERATED);
+	glGetQueryObjectuiv(query2, GL_QUERY_RESULT, &vert);
+}
+
+void Renderer::WriteRenderingMetrics()
+{
+	metrics->drawCalls = &drawcalls;
+	metrics->fragOut = &frag;
+	metrics->setPassCalls = &setPassCalls;
+	metrics->vsOut = &vert;
+	drawcalls = 0;
+	setPassCalls = 0;
 }
 
 void Renderer::UpdateTransform(Model* model)

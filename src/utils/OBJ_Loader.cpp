@@ -38,7 +38,7 @@ glm::vec3 getTangent(std::vector<glm::vec3> pos, std::vector<glm::vec2> uv)
 	return tangent, bitangent;
 }
 
-bool loadOBJ(const char * path, std::vector < glm::vec3 > & out_vertices, std::vector < glm::vec2 > & out_uvs, std::vector < glm::vec3 > & out_normals, std::vector< glm::vec3 > & tangent, std::vector< glm::vec3 > & bitangent)
+bool loadOBJ(const char * path, std::vector < glm::vec3 > & out_vertices, std::vector < glm::vec2 > & out_uvs, std::vector < glm::vec3 > & out_normals, std::vector< glm::vec3 > & tangent, std::vector< glm::vec3 > & bitangent, std::vector< unsigned int > & vertIndices)
 {
 	unsigned int cc = 0;
 	std::vector< unsigned int > vertexIndices, uvIndices, normalIndices;
@@ -114,7 +114,7 @@ bool loadOBJ(const char * path, std::vector < glm::vec3 > & out_vertices, std::v
 		out_indices_norm.push_back(normalIndices[i] - 1);
 	}*/
 
-
+	vertIndices = vertexIndices;
 	for (unsigned int i = 0; i < vertexIndices.size(); i++) {
 		unsigned int vertexIndex = vertexIndices[i];
 		glm::vec3 vertex = temp_vertices[vertexIndex - 1];

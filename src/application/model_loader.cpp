@@ -2,9 +2,10 @@
 
 
 
-ModelLoader::ModelLoader()
+ModelLoader::ModelLoader(Metrics* metrics)
 {
 	printf("Model Loader\n");
+	this->metrics = metrics;
 }
 
 Model* ModelLoader::LoadModel()
@@ -37,7 +38,7 @@ Model* ModelLoader::LoadModel()
 		temp = base + model_dir + model;
 		temp.append(obj[i]);
 		dir = temp.c_str();
-		bool res = loadOBJ(dir, vertices, uvs, normals, tangent, bitangent);
+		bool res = loadOBJ(dir, vertices, uvs, normals, tangent, bitangent, vertIndices);
 
 		for (int j = 0; j < vertices.size(); j++)
 		{
@@ -137,6 +138,11 @@ Model* ModelLoader::LoadModel()
 		child->setGlobalTransform(&globalXlocal);
 		root.AddChild(child);
 
+		verts += vertexes.size();
+		tris += vertIndices.size() / 3;
+		metrics->tris = &tris;
+		metrics->verts = &verts;
+
 		vertexes.clear();
 		vertices.clear();
 		uvs.clear();
@@ -145,6 +151,7 @@ Model* ModelLoader::LoadModel()
 		normals.clear();
 		textures.clear();
 		indices.clear();
+		vertIndices.clear();
 	}
 	return &root;
 }

@@ -2,6 +2,7 @@
 #define MODELLOADER_H
 #include "model_manager.h"
 #include "mesh_manager.h"
+#include "metrics.h"
 #include "../utils/texture_loader.h"
 #include "../utils/OBJ_Loader.h"
 
@@ -9,7 +10,7 @@ class ModelLoader
 {
 public:
 	
-	ModelLoader();
+	ModelLoader(Metrics*);
 	Model* LoadModel();
 
 private:
@@ -18,6 +19,7 @@ private:
 	std::vector< glm::vec3 > normals;
 	std::vector< glm::vec3 > tangent;
 	std::vector< glm::vec3 > bitangent;
+	std::vector< unsigned int > vertIndices;
 
 	glm::mat4 global;
 	glm::mat4 local;
@@ -35,6 +37,10 @@ private:
 	std::string default_mat = "Assets/defaults/default_material.png";
 	//vector<Mesh*> meshes;
 	TextureLoader TexLoader;
+
+	Metrics* metrics;
+	int verts = 0;
+	int tris = 0;
 
 };
 #endif;
