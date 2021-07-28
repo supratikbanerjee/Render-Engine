@@ -135,6 +135,7 @@
   <ItemGroup>
     <ClCompile Include="src\application\camera.cpp" />
     <ClCompile Include="src\application\mesh_manager.cpp" />
+    <ClCompile Include="src\application\metrics.cpp" />
     <ClCompile Include="src\application\model_loader.cpp" />
     <ClCompile Include="src\application\model_manager.cpp" />
     <ClCompile Include="src\application\renderer.cpp" />
@@ -166,6 +167,7 @@
   <ItemGroup>
     <ClInclude Include="src\application\camera.h" />
     <ClInclude Include="src\application\mesh_manager.h" />
+    <ClInclude Include="src\application\metrics.h" />
     <ClInclude Include="src\application\model_loader.h" />
     <ClInclude Include="src\application\model_manager.h" />
     <ClInclude Include="src\application\renderer.h" />

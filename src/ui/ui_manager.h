@@ -11,16 +11,14 @@
 class UIManager
 {
 public:
-	UIManager(SceneManager*, Transforms*);
-	void DrawUI(float*);
+	UIManager(SceneManager*, Transforms*, Metrics*);
+	void DrawUI();
 	bool p_open = false;
 private:
-	Transforms *transform;
-	SceneManager *scene;
-	TransformsManagerUI TransformsManager;
-	ShaderManagerUI ShaderManager;
-	SceneGraph graph;
-	StatsUI stats;
+	TransformsManagerUI* TransformsManager;
+	ShaderManagerUI* ShaderManager;
+	SceneGraph* graph;
+	StatsUI* stats;
 };
 #endif
 

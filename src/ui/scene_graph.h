@@ -10,8 +10,8 @@ class SceneGraph
 {
 public:
 
-	SceneGraph();
-	void DrawSceneGraphUI(SceneManager*, bool*);
+	SceneGraph(SceneManager*);
+	void DrawSceneGraphUI(bool*);
 
 private:
 	int node_clicked = -1;

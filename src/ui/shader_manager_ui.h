@@ -8,12 +8,13 @@
 class ShaderManagerUI
 {
 public:
-	ShaderManagerUI();
+	ShaderManagerUI(SceneManager*);
 
-	void DrawShaderManagerUI(SceneManager*, bool*);
+	void DrawShaderManagerUI(bool*);
 
 private:
 	Mesh *mesh;
+	SceneManager* scene;
 	ImGuiWindowFlags window_flags = 0;
 };
 #endif

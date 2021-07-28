@@ -13,6 +13,7 @@ Renderer::Renderer(Model *models, SceneManager* scene, Transforms* transform)
 
 void Renderer::Render(Shader *skybox_shader, Camera *camera)
 {
+	drawcalls = 0;
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -43,11 +44,12 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 
 		mesh = object->getMesh();
 		mesh->Draw(shader);
+		drawcalls++;
 		mesh->ShaderParameters(shader);
 	}
 	glEndQuery(GL_SAMPLES_PASSED);
 	glGetQueryObjectuiv(query, GL_QUERY_RESULT, &value);
-	printf("%d\n", value);
+	printf("%d %d\n", value, drawcalls);
 	glDepthFunc(GL_LEQUAL);
 	skybox_shader->use();
 	view = glm::mat4(glm::mat3(camera->GetViewMatrix()));

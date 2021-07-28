@@ -3,9 +3,10 @@
 
 
 
-ShaderManagerUI::ShaderManagerUI()
+ShaderManagerUI::ShaderManagerUI(SceneManager* scene)
 {
 	printf("Shader Manager UI\n");
+	this->scene = scene;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoSavedSettings;
@@ -30,7 +31,7 @@ ShaderManagerUI::ShaderManagerUI()
 	float Transmission = 0.0,
 	float TransmissionRoughness = 0.0,
 */
-void ShaderManagerUI::DrawShaderManagerUI(SceneManager* scene, bool* p_open)
+void ShaderManagerUI::DrawShaderManagerUI(bool* p_open)
 {
 	mesh = scene->getActiveMesh();
 	ImGui::SetNextWindowPos(ImVec2(1540, 0), ImGuiCond_FirstUseEver);

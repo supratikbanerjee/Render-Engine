@@ -2,9 +2,10 @@
 #include <iostream>
 
 
-TransformsManagerUI::TransformsManagerUI()
+TransformsManagerUI::TransformsManagerUI(Transforms* transform)
 {
 	printf("Transform Manager\n");
+	this->transform = transform;
 	window_flags |= ImGuiWindowFlags_NoTitleBar;
 	//window_flags |= ImGuiWindowFlags_NoScrollbar;
 	//window_flags |= ImGuiWindowFlags_MenuBar;
@@ -17,7 +18,7 @@ TransformsManagerUI::TransformsManagerUI()
 
 }
 
-void TransformsManagerUI::DrawTransformsManagerUI(Transforms* transform, bool* p_open)
+void TransformsManagerUI::DrawTransformsManagerUI(bool* p_open)
 {
 	//printf("TransformManager %d", transform);
 

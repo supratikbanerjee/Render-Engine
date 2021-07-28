@@ -12,10 +12,11 @@ class TransformsManagerUI
 {
 public:
 
-	TransformsManagerUI();
-	void DrawTransformsManagerUI(Transforms*, bool*);
+	TransformsManagerUI(Transforms*);
+	void DrawTransformsManagerUI(bool*);
 
 private:
+	Transforms* transform;
 	bool auto_rotate_x = false;
 	bool auto_rotate_y = false;
 	bool auto_rotate_z = false;

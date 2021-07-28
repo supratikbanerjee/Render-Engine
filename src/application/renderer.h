@@ -32,5 +32,6 @@ private:
 	int display_w = 1920;
 	int display_h = 1080;
 	void UpdateTransform(Model*);
+	int drawcalls = 0;
 };
 #endif
