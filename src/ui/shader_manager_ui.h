@@ -13,7 +13,8 @@ public:
 	void DrawShaderManagerUI(bool*);
 
 private:
-	Mesh *mesh;
+	int item_current = 0;
+	Material *mat;
 	SceneManager* scene;
 	ImGuiWindowFlags window_flags = 0;
 };

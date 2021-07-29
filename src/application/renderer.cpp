@@ -16,9 +16,9 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glm::mat4 view = camera->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
 
+	glm::mat4 view = *camera->GetViewMatrix();
+	glm::mat4 projection = *camera->GetProjectionMatrix();
 	RenderQueryBegin();
 	//Draw stuff
 		
@@ -29,23 +29,22 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 	UpdateTransform(models);
 	for (int i = 0; i < *models->getChildCount(); i++)
 	{
-		//printf("%f %f %f\n", camera.GetCameraPosition().x, camera.GetCameraPosition().y, camera.GetCameraPosition().z);
 		object = models->getChild(&i);
 		UpdateTransform(object);
+
 		shader = object->getShader();
 		shader->use();
 		setPassCalls++;
-		shader->setVec3("viewPos", camera->GetCameraPosition());
+
+		shader->setVec3("viewPos", *camera->GetCameraPosition());
 		shader->setVec3("lightPos", scene->getLighPosition());
 		
 		model = &object->getTransform()->model;
 		shader->setMat4("model", *model);
 		shader->setMat4("MVP", projection*view* *model);
 
-		mesh = object->getMesh();
-		mesh->Draw(shader);
+		object->Draw();
 		drawcalls++;
-		mesh->ShaderParameters(shader);
 	}
 
 	RenderQUeryEnd();
@@ -53,7 +52,7 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 
 	glDepthFunc(GL_LEQUAL);
 	skybox_shader->use();
-	view = glm::mat4(glm::mat3(camera->GetViewMatrix()));
+	view = glm::mat4(glm::mat3(*camera->GetViewMatrix()));
 	skybox_shader->setMat4("view", view);
 	skybox_shader->setMat4("projection", projection);
 

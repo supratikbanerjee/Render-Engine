@@ -17,7 +17,7 @@ class Renderer
 {
 public:
 	Renderer(Metrics*, Model*, SceneManager*);
-	void Render(Shader *skybox_shader, Camera *camera);
+	void Render(Shader*, Camera*);
 private:
 	Metrics* metrics;
 	Shader *shader;
@@ -25,14 +25,12 @@ private:
 	Skybox sky;
 	Model *models;
 	Model *object;
-	Mesh *mesh;
-	glm::mat4 *model;
+	glm::mat4* model;
 	GLuint query1;
 	GLuint query2;
 	
 	int active_mesh_id;
-	int display_w = 1920;
-	int display_h = 1080;
+
 
 	void UpdateTransform(Model*);
 	void WriteRenderingMetrics();

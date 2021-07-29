@@ -26,15 +26,28 @@ Camera::Camera(float posX, float posY, float posZ, float upX, float upY, float u
 }
 
 // Returns the view matrix calculated using Euler Angles and the LookAt Matrix
-glm::mat4 Camera::GetViewMatrix()
+glm::mat4* Camera::GetViewMatrix()
 {
 	//printf("%f %f %f //\n", Position.x, Position.y, Position.z);
-	return glm::lookAt(Position, Position + Front, Up);
+	view = glm::lookAt(Position, Position + Front, Up);
+	return &view;
 }
 
-glm::vec3 Camera::GetCameraPosition()
+glm::mat4* Camera::GetProjectionMatrix()
 {
-	return Position;
+	projection = glm::perspective(glm::radians(Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
+	return &projection;
+}
+
+glm::vec3* Camera::GetCameraPosition()
+{
+	return &Position;
+}
+
+glm::mat4 Camera::GetViewProjectionMatrix()
+{
+	ViewProjection = *GetProjectionMatrix() * *GetViewMatrix();
+	return ViewProjection;
 }
 
 void Camera::setCamPosition(glm::vec3* in_camPos)

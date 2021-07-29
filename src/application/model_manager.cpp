@@ -4,7 +4,7 @@
 Model::Model()
 {
 	printf("Model\n");
-	shader.CompileShaders("shaders/PBR/PBR.vs.glsl", "shaders/PBR/P_BSDF.frag");
+	mat = new Material();
 }
 
 void Model::Init()
@@ -59,11 +59,6 @@ int* Model::getChildCount()
 	return &childCount;
 }
 
-Shader* Model::getShader()
-{
-	return &shader;
-}
-
 std::string* Model::getName()
 {
 	return &name;
@@ -72,4 +67,20 @@ std::string* Model::getName()
 Transforms* Model::getTransform()
 {
 	return &transform;
+}
+
+Shader* Model::getShader()
+{
+	return mat->getShader();
+}
+
+Material* Model::getMaterial()
+{
+	return mat;
+}
+
+void Model::Draw()
+{
+	mesh->Draw(mat->getShader());
+	mat->ShaderParameters();
 }

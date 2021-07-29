@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include "mesh_manager.h"
 #include "transforms.h"
+#include "materials.h"
 
 class Model
 {
@@ -18,13 +19,15 @@ public:
 	void getId(int&);
 	void getChildren(std::vector<Model*>&);
 	void Init();
+	void Draw();
 	int* getChildCount();
+	Shader* getShader();
 
 	std::string* getName();
 	
+	Material* getMaterial();
 	Model* getChild(int*);
 	Mesh* getMesh();
-	Shader* getShader();
 	Transforms* getTransform();
 
 private:
@@ -33,10 +36,11 @@ private:
 	std::string name;
 
 	std::vector<Model*> children;
-	Shader shader;
-	Transforms transform;
 	Model* parent;
+
+	Transforms transform;
 	Mesh* mesh;
+	Material* mat;
 
 };
 #endif
