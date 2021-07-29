@@ -9,15 +9,15 @@ class SceneManager
 public:
 	SceneManager(Model*);
 	glm::vec3 getLighPosition();
-	void setActiveMeshId(int*);
-	int* getActiveMeshId();
-	int* getMeshCount();
-	Mesh* getActiveMesh();
-	std::string* getMeshName(int*);
+	void setActiveModelId(int*);
+	int* getActiveModelId();
+	int* getModelCount();
+	Model* getActiveModel();
+	std::string* getModelName(int*);
 
 private:
 	Model* models;
-	int active_mesh_id = 0;
+	int active_model_id = 0;
 	glm::vec3 lightPos = glm::vec3(200.0f, 100.0f, 100.0f);
 };
 #endif

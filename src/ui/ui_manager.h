@@ -11,7 +11,7 @@
 class UIManager
 {
 public:
-	UIManager(SceneManager*, Transforms*, Metrics*);
+	UIManager(SceneManager*, Metrics*);
 	void DrawUI();
 	bool p_open = false;
 private:

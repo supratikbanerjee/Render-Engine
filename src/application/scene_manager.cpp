@@ -8,24 +8,24 @@ SceneManager::SceneManager(Model* models)
 	this->models = models;
 }
 
-void SceneManager::setActiveMeshId(int* id)
+void SceneManager::setActiveModelId(int* id)
 {
-	active_mesh_id = *id;
+	active_model_id = *id;
 }
 
-int* SceneManager::getActiveMeshId()
+int* SceneManager::getActiveModelId()
 {
-	return &active_mesh_id;
+	return &active_model_id;
 }
 
-int* SceneManager::getMeshCount()
+int* SceneManager::getModelCount()
 {
 	return models->getChildCount();
 }
 
-Mesh* SceneManager::getActiveMesh()
+Model* SceneManager::getActiveModel()
 {
-	return models->getChild(&active_mesh_id)->getMesh();
+	return models->getChild(&active_model_id);
 }
 
 glm::vec3 SceneManager::getLighPosition()
@@ -33,7 +33,7 @@ glm::vec3 SceneManager::getLighPosition()
 	return lightPos;
 }
 
-std::string* SceneManager::getMeshName(int* id)
+std::string* SceneManager::getModelName(int* id)
 {
 	return models->getChild(id)->getName();
 }

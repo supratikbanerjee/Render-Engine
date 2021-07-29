@@ -16,12 +16,11 @@
 class Renderer
 {
 public:
-	Renderer(Metrics*, Model*, SceneManager*, Transforms*);
+	Renderer(Metrics*, Model*, SceneManager*);
 	void Render(Shader *skybox_shader, Camera *camera);
 private:
 	Metrics* metrics;
 	Shader *shader;
-	Transforms *transform;
 	SceneManager *scene;
 	Skybox sky;
 	Model *models;

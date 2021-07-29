@@ -2,10 +2,10 @@
 #include <iostream>
 
 
-UIManager::UIManager(SceneManager *scene, Transforms *transform, Metrics *metrics)
+UIManager::UIManager(SceneManager *scene , Metrics *metrics)
 {
 	printf("UI Manager\n");
-	TransformsManager = new TransformsManagerUI(transform);
+	TransformsManager = new TransformsManagerUI(scene);
 	ShaderManager = new ShaderManagerUI(scene);
 	graph = new SceneGraph(scene);
 	stats = new StatsUI(metrics);

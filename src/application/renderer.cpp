@@ -2,10 +2,9 @@
 #include "renderer.h"
 
 
-Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Transforms* transform)
+Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene)
 {
 	printf("Renderer\n");
-	this->transform = transform;
 	//printf("Renderer %d", transform);
 	this->models = models;
 	this->scene = scene;
@@ -32,13 +31,14 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 	{
 		//printf("%f %f %f\n", camera.GetCameraPosition().x, camera.GetCameraPosition().y, camera.GetCameraPosition().z);
 		object = models->getChild(&i);
+		UpdateTransform(object);
 		shader = object->getShader();
 		shader->use();
 		setPassCalls++;
 		shader->setVec3("viewPos", camera->GetCameraPosition());
 		shader->setVec3("lightPos", scene->getLighPosition());
 		
-		model = models->getGlobalTransform();
+		model = &object->getTransform()->model;
 		shader->setMat4("model", *model);
 		shader->setMat4("MVP", projection*view* *model);
 
@@ -92,17 +92,18 @@ void Renderer::WriteRenderingMetrics()
 	metrics->fragOut = &frag;
 	metrics->setPassCalls = &setPassCalls;
 	metrics->vsOut = &vert;
+
 	drawcalls = 0;
 	setPassCalls = 0;
 }
 
 void Renderer::UpdateTransform(Model* model)
 {
-	glm::mat4 global = *model->getGlobalTransform();
-	global = glm::scale(glm::mat4(1.0f), transform->scale);
-	global = glm::translate(global, transform->translation);
-	global = glm::rotate(global, transform->rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-	global = glm::rotate(global, transform->rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-	global = glm::rotate(global, transform->rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-	model->setGlobalTransform(&global);
+	glm::mat4 global = model->getTransform()->model;
+	global = glm::scale(glm::mat4(1.0f), model->getTransform()->scale);
+	global = glm::translate(global, model->getTransform()->translation);
+	global = glm::rotate(global, model->getTransform()->rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	global = glm::rotate(global, model->getTransform()->rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	global = glm::rotate(global, model->getTransform()->rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	model->getTransform()->model = global;
 }

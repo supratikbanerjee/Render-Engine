@@ -2,7 +2,7 @@
 #define TRANSFORMS_MANAGER_UI_H
 #include "../imgui/imgui.h"
 #include "../imgui/imgui_impl_glfw_gl3.h"
-#include "../application/transforms.h"
+#include "../application/scene_manager.h"
 #include <glm/glm.hpp>
 
 
@@ -12,11 +12,12 @@ class TransformsManagerUI
 {
 public:
 
-	TransformsManagerUI(Transforms*);
+	TransformsManagerUI(SceneManager*);
 	void DrawTransformsManagerUI(bool*);
 
 private:
-	Transforms* transform;
+	Model* model;
+	SceneManager* scene;
 	bool auto_rotate_x = false;
 	bool auto_rotate_y = false;
 	bool auto_rotate_z = false;

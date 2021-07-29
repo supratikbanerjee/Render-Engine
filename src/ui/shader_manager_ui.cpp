@@ -33,7 +33,7 @@ ShaderManagerUI::ShaderManagerUI(SceneManager* scene)
 */
 void ShaderManagerUI::DrawShaderManagerUI(bool* p_open)
 {
-	mesh = scene->getActiveMesh();
+	mesh = scene->getActiveModel()->getMesh();
 	ImGui::SetNextWindowPos(ImVec2(1540, 0), ImGuiCond_FirstUseEver);
 	ImGui::Begin("Shader", p_open, window_flags);
 	ImGui::Text("PBR Shader\n");

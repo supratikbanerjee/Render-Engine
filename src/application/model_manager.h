@@ -3,36 +3,40 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "mesh_manager.h"
+#include "transforms.h"
+
 class Model
 {
 public:
 	Model();
 	void AddChild(Model*);
-	void setLocalTransform(glm::mat4*);
-	void setGlobalTransform(glm::mat4*);
+	
 	void setMesh(Mesh*);
 	void setId(int*);
 	void setName(std::string*);
 
-	glm::mat4* getLocalTransform();
-	glm::mat4* getGlobalTransform();
+	void getId(int&);
 	void getChildren(std::vector<Model*>&);
+	void Init();
 	int* getChildCount();
+
+	std::string* getName();
+	
 	Model* getChild(int*);
 	Mesh* getMesh();
-	void getId(int&);
 	Shader* getShader();
-	std::string* getName();
+	Transforms* getTransform();
 
 private:
-	Shader shader;
 	int id;
 	int childCount;
 	std::string name;
-	Model *parent;
+
 	std::vector<Model*> children;
-	Mesh *mesh;
-	glm::mat4 local;
-	glm::mat4 global;
+	Shader shader;
+	Transforms transform;
+	Model* parent;
+	Mesh* mesh;
+
 };
 #endif

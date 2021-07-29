@@ -27,13 +27,10 @@ Model* ModelLoader::LoadModel()
 	const char* specular[] = {"", "", "" };
 	const char* depth[] = {"", "", "" };
 
-	mesh_count = (sizeof(obj) / sizeof(obj[0]));
-	root.setLocalTransform(&identity);
-	root.setGlobalTransform(&identity);
-	//int tempid = -1;
-	//root.setId(&tempid);
+	model_count = (sizeof(obj) / sizeof(obj[0]));
+	root.Init();
 
-	for (int i = 0; i < mesh_count; i++)
+	for (int i = 0; i < model_count; i++)
 	{
 		temp = base + model_dir + model;
 		temp.append(obj[i]);
@@ -131,11 +128,7 @@ Model* ModelLoader::LoadModel()
 		child->setName(&name);
 		child->setId(&i);
 		child->setMesh(mesh);
-		child->setLocalTransform(&identity);
-		global = *root.getGlobalTransform();
-		local = *child->getLocalTransform();
-		globalXlocal = global * local;
-		child->setGlobalTransform(&globalXlocal);
+		child->Init();
 		root.AddChild(child);
 
 		verts += vertexes.size();
