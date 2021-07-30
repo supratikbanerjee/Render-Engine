@@ -7,6 +7,7 @@ in vec2 TexCoords;
 in vec3 WorldPosition;
 in vec3 Normals;
 
+vec4 lightSource;
 vec3 TangentLightPos;
 vec3 TangentViewPos;
 vec3 TangentWorldPos;
@@ -21,7 +22,7 @@ uniform sampler2D texture_ambient;
 uniform sampler2D texture_depth;
 
 uniform vec3 viewPos = vec3(1.0f, 1.0f, 1.0f);
-uniform vec3 lightPos = vec3(1.0f, 1.0f, 1.0f);
+uniform vec4 lightVector = vec4(0.0f, 0.0f, 0.0f, 0.0f);
 
 //uniform float roughness = 0.15;
 const float PI = 3.14159265359;
@@ -235,7 +236,11 @@ void main()
     tbn = calculate_tbn();
 
     vec3 BSDF = vec3(0.0);
-    vec3 L = normalize(lightPos - WorldPosition);
+    if(lightVector.w == 1.0)
+        lightSource = normalize(lightVector - vec4(WorldPosition, 0.0f));
+    else if(lightVector.w == 0)
+        lightSource = normalize(-lightVector);
+    vec3 L = vec3(lightSource.x, lightSource.y, lightSource.z);
     vec3 V = normalize(viewPos - WorldPosition);
     vec3 H = normalize(L + V);
     vec3 N = getNormals(tbn);
@@ -306,9 +311,9 @@ void main()
     vec3 F = FresnelShlicks(VoH, F0);
     float G = GeometrySmith(N, V, L, roughness);
 
-    vec3 nominator    = D * G * F; 
+    vec3 numerator = D * G * F; 
     float denominator = 4 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0) + 0.001;
-    vec3 specular_val = nominator / denominator;
+    vec3 specular_val = numerator / denominator;
     //if(specular_tex)
     //{
     //    specular_val = specular_val * vec3(texture(texture_specular, TexCoords));

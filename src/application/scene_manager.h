@@ -8,7 +8,7 @@ class SceneManager
 {
 public:
 	SceneManager(Model*);
-	glm::vec3 getLighPosition();
+	glm::vec4 getLighPosition();
 	void setActiveModelId(int*);
 	int* getActiveModelId();
 	int* getModelCount();
@@ -18,7 +18,7 @@ public:
 private:
 	Model* models;
 	int active_model_id = 0;
-	glm::vec3 lightPos = glm::vec3(200.0f, 100.0f, 100.0f);
+	glm::vec4 lightPos = glm::vec4(200.0f, 100.0f, 100.0f, 0.0f);
 };
 #endif
 

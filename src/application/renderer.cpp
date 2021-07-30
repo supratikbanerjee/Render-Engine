@@ -37,7 +37,7 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 		setPassCalls++;
 
 		shader->setVec3("viewPos", *camera->GetCameraPosition());
-		shader->setVec3("lightPos", scene->getLighPosition());
+		shader->setVec4("lightVector", scene->getLighPosition());
 		
 		model = &object->getTransform()->model;
 		shader->setMat4("model", *model);

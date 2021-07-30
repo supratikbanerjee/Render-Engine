@@ -28,7 +28,7 @@ Model* SceneManager::getActiveModel()
 	return models->getChild(&active_model_id);
 }
 
-glm::vec3 SceneManager::getLighPosition()
+glm::vec4 SceneManager::getLighPosition()
 {
 	return lightPos;
 }
