@@ -1,6 +1,6 @@
 #pragma once
-#include "../imgui/imgui.h"
-#include "../imgui/imgui_impl_glfw_gl3.h"
+#include <imgui.h>
+#include <imgui_impl_glfw_gl3.h>
 #include "../application/metrics.h"
 
 class StatsUI

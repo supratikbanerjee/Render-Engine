@@ -74,7 +74,7 @@
     <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>E:\GIT\Render-Engine\Dependencies\imgui;E:\GIT\Render-Engine\Dependencies\ImGuizmo;E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -114,7 +114,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;E:\GIT\Render-Engine\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\GIT\Render-Engine\Dependencies\ImGuizmo;E:\GIT\Render-Engine\Dependencies\imgui;E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;E:\GIT\Render-Engine\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
@@ -147,6 +147,10 @@
     <ClCompile Include="src\events\mouse_events.cpp" />
     <ClCompile Include="src\events\system_events.cpp" />
     <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="src\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="src\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="src\ImGuizmo\ImSequencer.cpp" />
     <ClCompile Include="src\imgui\imgui.cpp" />
     <ClCompile Include="src\imgui\imgui_demo.cpp" />
     <ClCompile Include="src\imgui\imgui_draw.cpp" />
@@ -158,7 +162,6 @@
     <ClCompile Include="src\ui\stats_ui.cpp" />
     <ClCompile Include="src\ui\transforms_manager_ui.cpp" />
     <ClCompile Include="src\ui\ui_manager.cpp" />
-    <ClCompile Include="src\utils\gizmo_manager.cpp" />
     <ClCompile Include="src\utils\OBJ_Loader.cpp" />
     <ClCompile Include="src\utils\quaternion_rotaiton.cpp" />
     <ClCompile Include="src\utils\shader_manager.cpp" />
@@ -179,13 +182,6 @@
     <ClInclude Include="src\events\keyboard_events.h" />
     <ClInclude Include="src\events\mouse_events.h" />
     <ClInclude Include="src\events\system_events.h" />
-    <ClInclude Include="src\imgui\imconfig.h" />
-    <ClInclude Include="src\imgui\imgui.h" />
-    <ClInclude Include="src\imgui\imgui_impl_glfw_gl3.h" />
-    <ClInclude Include="src\imgui\imgui_internal.h" />
-    <ClInclude Include="src\imgui\stb_rect_pack.h" />
-    <ClInclude Include="src\imgui\stb_textedit.h" />
-    <ClInclude Include="src\imgui\stb_truetype.h" />
     <ClInclude Include="src\RenderEngine.h" />
     <ClInclude Include="src\ui\demo_ui.h" />
     <ClInclude Include="src\ui\scene_graph.h" />
@@ -193,8 +189,6 @@
     <ClInclude Include="src\ui\stats_ui.h" />
     <ClInclude Include="src\ui\transforms_manager_ui.h" />
     <ClInclude Include="src\ui\ui_manager.h" />
-    <ClInclude Include="src\utils\gizmo.h" />
-    <ClInclude Include="src\utils\gizmo_manager.h" />
     <ClInclude Include="src\utils\OBJ_Loader.h" />
     <ClInclude Include="src\utils\quaternion_rotaiton.h" />
     <ClInclude Include="src\utils\shader_manager.h" />

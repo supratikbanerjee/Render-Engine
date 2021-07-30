@@ -9,7 +9,6 @@
 #include "camera.h"
 #include "scene_manager.h"
 #include "mesh_manager.h"
-#include "../utils/gizmo.h"
 #include "transforms.h"
 #include "metrics.h"
 
