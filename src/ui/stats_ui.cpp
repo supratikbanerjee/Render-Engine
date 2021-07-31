@@ -5,16 +5,15 @@ StatsUI::StatsUI(Metrics *metrics)
 {
 	this->metrics = metrics;
 	printf("Stats UI\n");
-	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	/*window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoSavedSettings;
-	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;*/
 }
 
-void StatsUI::DrawStatsUI(bool* p_open)
+void StatsUI::DrawUI()
 {
-	ImGui::Begin("Stats", p_open, window_flags);
-	ImGui::SetNextWindowPos(ImVec2(0, 10), ImGuiCond_FirstUseEver);
+	ImGui::Begin("Stats");
 	ImGui::Text("Graphics:  %.1f FPS (%.3f ms)", ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
 	ImGui::Text("Delta Time: %.3f s", *metrics->deltaTime);
 	ImGui::Text("Draw Calls: %d   SetPass Calls: %d", *metrics->drawCalls, *metrics->setPassCalls);

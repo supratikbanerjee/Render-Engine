@@ -13,7 +13,7 @@ class UIManager
 public:
 	UIManager(SceneManager*, Metrics*);
 	void DrawUI();
-	bool p_open = false;
+	//bool p_open = false;
 private:
 	TransformsManagerUI* TransformsManager;
 	ShaderManagerUI* ShaderManager;

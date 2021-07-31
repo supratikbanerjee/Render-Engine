@@ -7,10 +7,10 @@ ShaderManagerUI::ShaderManagerUI(SceneManager* scene)
 {
 	printf("Shader Manager UI\n");
 	this->scene = scene;
-	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	/*window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoSavedSettings;
-	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;*/
 }
 /*
 	color BaseColor = color(0.8, 0.8, 0.8),
@@ -31,11 +31,10 @@ ShaderManagerUI::ShaderManagerUI(SceneManager* scene)
 	float Transmission = 0.0,
 	float TransmissionRoughness = 0.0,
 */
-void ShaderManagerUI::DrawShaderManagerUI(bool* p_open)
+void ShaderManagerUI::DrawUI()
 {
 	mat = scene->getActiveModel()->getMaterial();
-	ImGui::SetNextWindowPos(ImVec2(1540, 0), ImGuiCond_FirstUseEver);
-	ImGui::Begin("Shader", p_open, window_flags);
+	ImGui::Begin("Shader");
 	ImGui::Text("PBR Shader\n");
 	ImGui::Text("\n");
 	const char* items[] = { "Both", "Front", "Back" };
