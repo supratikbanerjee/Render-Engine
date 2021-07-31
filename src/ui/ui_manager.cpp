@@ -15,14 +15,12 @@ UIManager::UIManager(SceneManager *scene , Metrics *metrics)
 void UIManager::DrawUI()
 {
 	
-
-	TransformsManager->DrawTransformsManagerUI(&p_open);
-	ShaderManager->DrawShaderManagerUI(&p_open);
-	graph->DrawSceneGraphUI(&p_open);
-	stats->DrawStatsUI(&p_open);
+	TransformsManager->DrawUI();
+	ShaderManager->DrawUI();
+	graph->DrawUI();
+	stats->DrawUI();
 
 	//ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver); // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway. Here we just want to make the demo initial state a bit more friendly!
 	//ImGui::ShowDemoWindow();
-
 
 }

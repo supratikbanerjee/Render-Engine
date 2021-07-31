@@ -6,25 +6,24 @@ TransformsManagerUI::TransformsManagerUI(SceneManager* scene)
 {
 	printf("Transform Manager\n");
 	this->scene = scene;
-	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	//window_flags |= ImGuiWindowFlags_NoTitleBar;
 	//window_flags |= ImGuiWindowFlags_NoScrollbar;
 	//window_flags |= ImGuiWindowFlags_MenuBar;
-	window_flags |= ImGuiWindowFlags_NoMove;
-	window_flags |= ImGuiWindowFlags_NoSavedSettings;
-	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	//window_flags |= ImGuiWindowFlags_NoMove;
+	//window_flags |= ImGuiWindowFlags_NoSavedSettings;
+	//window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
 	//window_flags |= ImGuiWindowFlags_NoResize;
 	//window_flags |= ImGuiWindowFlags_NoCollapse;
 	//window_flags |= ImGuiWindowFlags_NoNav;
 
 }
 
-void TransformsManagerUI::DrawTransformsManagerUI(bool* p_open)
+void TransformsManagerUI::DrawUI()
 {
 	//printf("TransformManager %d", transform);
 
 	//ImGui::SetWindowSize(ImVec2(400, 400));
-	ImGui::SetNextWindowPos(ImVec2(0, 100), ImGuiCond_FirstUseEver);
-	ImGui::Begin("Transforms", p_open, window_flags);
+	ImGui::Begin("Transforms");
 	model = scene->getActiveModel();
 	ImGui::DragFloat3("Position", &model->getTransform()->translation[0], 0.01f);
 	ImGui::DragFloat3("Rotation", &model->getTransform()->rotation[0], 0.01f);

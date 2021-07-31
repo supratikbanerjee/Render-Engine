@@ -6,16 +6,15 @@ SceneGraph::SceneGraph(SceneManager* scene)
 {
 	printf("Scene Graph\n");
 	this->scene = scene;
-	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	/*window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoSavedSettings;
-	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;*/
 }
 
-void SceneGraph::DrawSceneGraphUI(bool* p_open)
+void SceneGraph::DrawUI()
 {
-	ImGui::SetWindowSize(ImVec2(335, 335), ImGuiCond_FirstUseEver);
-	ImGui::Begin("Scene Graph", p_open, ImVec2(0, 0), window_flags);
+	ImGui::Begin("Scene Graph");
     if (ImGui::TreeNode("Root"))
     {
 		for (int i = 0; i < *scene->getModelCount(); i++)
