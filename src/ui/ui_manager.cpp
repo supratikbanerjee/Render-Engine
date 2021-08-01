@@ -51,6 +51,7 @@ void UIManager::DrawUI()
 	ShaderManager->DrawUI();
 	graph->DrawUI();
 	stats->DrawUI();
+	//ImGui::End();
 	//ImGui::ShowDemoWindow();
 }
 

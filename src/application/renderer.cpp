@@ -2,21 +2,24 @@
 #include "renderer.h"
 
 
-Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene)
+Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Framebuffer* buffer)
 {
 	printf("Renderer\n");
 	//printf("Renderer %d", transform);
 	this->models = models;
 	this->scene = scene;
 	this->metrics = metrics;
+	this->buffer = buffer;
 }
 
 void Renderer::Render(Shader *skybox_shader, Camera *camera)
 {
+	buffer->Bind();
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+	
 	glm::mat4 view = *camera->GetViewMatrix();
 	glm::mat4 projection = *camera->GetProjectionMatrix();
 	RenderQueryBegin();
@@ -50,7 +53,7 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 	RenderQUeryEnd();
 	WriteRenderingMetrics();
 
-	glDepthFunc(GL_LEQUAL);
+	/*glDepthFunc(GL_LEQUAL);
 	skybox_shader->use();
 	view = glm::mat4(glm::mat3(*camera->GetViewMatrix()));
 	skybox_shader->setMat4("view", view);
@@ -64,7 +67,9 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 
 	skybox_shader->setInt("skybox", 0);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glDepthFunc(GL_LESS);
+	glDepthFunc(GL_LESS);*/
+
+	buffer->Unbind();
 }
 
 void Renderer::RenderQueryBegin()

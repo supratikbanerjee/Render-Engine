@@ -11,13 +11,15 @@
 #include "mesh_manager.h"
 #include "transforms.h"
 #include "metrics.h"
+#include "framebuffer.h"
 
 class Renderer
 {
 public:
-	Renderer(Metrics*, Model*, SceneManager*);
+	Renderer(Metrics*, Model*, SceneManager*, Framebuffer*);
 	void Render(Shader*, Camera*);
 private:
+	Framebuffer* buffer;
 	Metrics* metrics;
 	Shader *shader;
 	SceneManager *scene;

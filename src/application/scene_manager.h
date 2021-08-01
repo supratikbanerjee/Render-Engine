@@ -18,7 +18,7 @@ public:
 private:
 	Model* models;
 	int active_model_id = 0;
-	glm::vec4 lightPos = glm::vec4(200.0f, 100.0f, 100.0f, 0.0f);
+	glm::vec4 lightPos = glm::vec4(200.0f, 100.0f, 100.0f, 1.0f);
 };
 #endif
 
