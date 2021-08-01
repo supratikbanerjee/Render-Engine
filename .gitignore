@@ -19,6 +19,8 @@ mono_crash.*
 # Project Specifics
 /[Dd]ependencies/
 /[Aa]ssets/
+/src/tests/
+/shaders/tests/
 
 # Build results
 [Dd]ebug/
