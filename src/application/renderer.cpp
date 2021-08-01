@@ -12,7 +12,7 @@ Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Framebu
 	this->buffer = buffer;
 }
 
-void Renderer::Render(Shader *skybox_shader, Camera *camera)
+void Renderer::Render(Skybox *skybox, Camera *camera)
 {
 	buffer->Bind();
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -52,23 +52,7 @@ void Renderer::Render(Shader *skybox_shader, Camera *camera)
 
 	RenderQUeryEnd();
 	WriteRenderingMetrics();
-
-	/*glDepthFunc(GL_LEQUAL);
-	skybox_shader->use();
-	view = glm::mat4(glm::mat3(*camera->GetViewMatrix()));
-	skybox_shader->setMat4("view", view);
-	skybox_shader->setMat4("projection", projection);
-
-	// skybox cube
-	glBindVertexArray(sky.getSkyboxVAO());
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, sky.getCubemapTexture());
-	//glBindTexture(GL_TEXTURE_2D, sky.getCubemapTexture());
-
-	skybox_shader->setInt("skybox", 0);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glDepthFunc(GL_LESS);*/
-
+	skybox->Draw(&view, &projection);
 	buffer->Unbind();
 }
 

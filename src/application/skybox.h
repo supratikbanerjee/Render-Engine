@@ -7,16 +7,16 @@
 
 #include "../utils/stb_image.h"
 #include "../utils/texture_loader.h"
-
+#include "../utils/shader_manager.h"
 
 class Skybox
 {
 public:
 	Skybox();
-	unsigned int getCubemapTexture();
-	unsigned int getSkyboxVAO();
+	void Draw(glm::mat4*, glm::mat4*);
 
 private:
+	Shader skybox_shader;
 	TextureLoader TexLoad;
 	unsigned int cubemap_texture;
 	unsigned int skyboxVAO, skyboxVBO;

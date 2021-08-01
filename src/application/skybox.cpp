@@ -4,6 +4,7 @@ Skybox::Skybox()
 {
 	printf("Skybox\n");
 	skyboxTex();
+	skybox_shader.CompileShaders("shaders/skybox.vs", "shaders/skybox.fs");
 }
 
 void Skybox::skyboxTex()
@@ -67,12 +68,20 @@ void Skybox::skyboxTex()
 	//cubemapTexture = TexLoad.LoadHDR("../Assets/textures/skybox/HDR/river_walk_1_2k.hdr");
 }
 
-unsigned int Skybox::getCubemapTexture()
+void Skybox::Draw(glm::mat4* view, glm::mat4* projection)
 {
-	return cubemap_texture;
-}
+	glDepthFunc(GL_LEQUAL);
+	skybox_shader.use();
+	skybox_shader.setMat4("view", glm::mat4(glm::mat3(*view)));
+	skybox_shader.setMat4("projection", *projection);
 
-unsigned int Skybox::getSkyboxVAO()
-{
-	return skyboxVAO;
+	// skybox cube
+	glBindVertexArray(skyboxVAO);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap_texture);
+	//glBindTexture(GL_TEXTURE_2D, sky.getCubemapTexture());
+
+	skybox_shader.setInt("skybox", 0);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+	glDepthFunc(GL_LESS);
 }
