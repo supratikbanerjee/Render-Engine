@@ -24,6 +24,7 @@ public:
 	void End();
 	void ShutDown();
 private:
+	void DockingFromHazel();
 	TransformsManagerUI* TransformsManager;
 	ShaderManagerUI* ShaderManager;
 	SceneGraph* graph;

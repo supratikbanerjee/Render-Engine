@@ -11,9 +11,19 @@ class ModelLoader
 public:
 	
 	ModelLoader(Metrics*);
+	
 	Model* LoadModel();
 
 private:
+	std::string base = "Assets/";
+	std::string model_dir = "models/";
+	std::string texture_dir = "textures/";
+
+	std::string model = "dragonbody/";
+	std::string temp;
+	const char* dir;
+
+	void LoadTexture(const char*, const char*);
 	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uvs;
 	std::vector< glm::vec3 > normals;
@@ -29,7 +39,6 @@ private:
 	int model_count;
 	Model root;
 	std::string default_mat = "Assets/defaults/default_material.png";
-	//vector<Mesh*> meshes;
 	TextureLoader TexLoader;
 
 	Metrics* metrics;

@@ -22,11 +22,6 @@ void Framebuffer::Init()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, cba, 0);
 
-	//glCreateTextures(GL_TEXTURE_2D, 1, &rbo);
-	//glBindTexture(GL_TEXTURE_2D, rbo);
-	//glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH24_STENCIL8, *width, *height);
-	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, rbo, 0);
-
 	glGenRenderbuffers(1, &rbo);
 	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, *width, *height);
@@ -45,7 +40,6 @@ void Framebuffer::Bind()
 void Framebuffer::Unbind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	
 }
 
 unsigned int* Framebuffer::GetColorAttachment()
