@@ -7,6 +7,7 @@
 #include "scene_graph.h"
 #include "stats_ui.h"
 #include "viewport_ui.h"
+#include "gizmo_ui.h"
 
 #include "..\imgui\imgui.h"
 #include "..\imgui\imgui_impl_glfw.h"
@@ -24,6 +25,7 @@ public:
 	void DrawUI();
 	void End();
 	void ShutDown();
+	GizmoUI* gizmo;
 private:
 	void DockingFromHazel();
 	TransformsManagerUI* TransformsManager;
@@ -31,6 +33,7 @@ private:
 	SceneGraph* graph;
 	StatsUI* stats;
 	ViewportUI* viewport;
+	
 };
 #endif
 

@@ -9,8 +9,9 @@ UIManager::UIManager(SceneManager *scene , Metrics *metrics, Framebuffer* buffer
 	ShaderManager = new ShaderManagerUI(scene);
 	graph = new SceneGraph(scene);
 	stats = new StatsUI(metrics);
-	viewport = new ViewportUI(buffer);
-	//printf("UIManager %d", transform);
+	gizmo = new GizmoUI(scene);
+	viewport = new ViewportUI(buffer, gizmo);
+	
 }
 
 void UIManager::Init(GLFWwindow* window)
@@ -44,6 +45,7 @@ void UIManager::Begin()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	gizmo->Begin();
 }
 
 
