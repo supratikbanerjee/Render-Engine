@@ -142,6 +142,7 @@
     <ClCompile Include="src\application\model_manager.cpp" />
     <ClCompile Include="src\application\renderer.cpp" />
     <ClCompile Include="src\application\scene_manager.cpp" />
+    <ClCompile Include="src\application\shadows.cpp" />
     <ClCompile Include="src\application\skybox.cpp" />
     <ClCompile Include="src\application\transforms.cpp" />
     <ClCompile Include="src\events\keyboard_events.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="src\application\model_manager.h" />
     <ClInclude Include="src\application\renderer.h" />
     <ClInclude Include="src\application\scene_manager.h" />
+    <ClInclude Include="src\application\shadows.h" />
     <ClInclude Include="src\application\skybox.h" />
     <ClInclude Include="src\application\transforms.h" />
     <ClInclude Include="src\events\keyboard_events.h" />

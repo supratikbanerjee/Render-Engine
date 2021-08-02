@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <glad/glad.h>
 #include "../utils/shader_manager.h"
-//#include "../global_variables.h"
 #include "model_loader.h"
 #include "skybox.h"
 #include "camera.h"
@@ -17,9 +16,14 @@
 class Renderer
 {
 public:
-	Renderer(Metrics*, Model*, SceneManager*, Framebuffer*);
-	void Render(Skybox*, RenderParams*);
+	Renderer(Metrics*, Model*, SceneManager*, Framebuffer*, RenderParams*);
+	void Render(Skybox*);
+	
 private:
+	glm::mat4 view;
+	glm::mat4 projection;
+
+	RenderParams* param;
 	Framebuffer* buffer;
 	Metrics* metrics;
 	Shader *shader;
@@ -33,7 +37,8 @@ private:
 	
 	int active_mesh_id;
 
-
+	void PreRender();
+	void GeometryPass();
 	void UpdateTransform(Model*);
 	void WriteRenderingMetrics();
 	void RenderQueryBegin();

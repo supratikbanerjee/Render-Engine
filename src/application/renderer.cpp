@@ -2,32 +2,52 @@
 #include "renderer.h"
 
 
-Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Framebuffer* buffer)
+Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Framebuffer* buffer, RenderParams* param)
 {
 	printf("Renderer\n");
 	//printf("Renderer %d", transform);
+	this->param = param;
 	this->models = models;
 	this->scene = scene;
 	this->metrics = metrics;
 	this->buffer = buffer;
 }
 
-void Renderer::Render(Skybox *skybox, RenderParams* param)
+void Renderer::Render(Skybox *skybox)
 {
 	buffer->Bind();
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-	if(param->wireframe && !param->shaded)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	if(!param->wireframe && param->shaded)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	
-	glm::mat4 view = *scene->GetMainCamera()->GetViewMatrix();
-	glm::mat4 projection = *scene->GetMainCamera()->GetProjectionMatrix();
+	PreRender();
 	RenderQueryBegin();
 
-	UpdateTransform(models);
+	GeometryPass();
+
+	RenderQUeryEnd();
+	WriteRenderingMetrics();
+	if(param->skybox)
+		skybox->Draw(&view, &projection);
+
+	buffer->Unbind();
+}
+
+void Renderer::PreRender()
+{
+	drawcalls = 0;
+	setPassCalls = 0;
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if (param->wireframe && !param->shaded)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (!param->wireframe && param->shaded)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	view = *scene->GetMainCamera()->GetViewMatrix();
+	projection = *scene->GetMainCamera()->GetProjectionMatrix();
+}
+
+
+void Renderer::GeometryPass()
+{
 	for (int i = 0; i < *models->getChildCount(); i++)
 	{
 		object = models->getChild(&i);
@@ -39,20 +59,14 @@ void Renderer::Render(Skybox *skybox, RenderParams* param)
 
 		shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
 		shader->setVec4("lightVector", scene->getLighPosition());
-		
+
 		model = &object->getTransform()->model;
 		shader->setMat4("model", *model);
-		shader->setMat4("MVP", projection*view* *model);
+		shader->setMat4("MVP", projection * view * *model);
 
 		object->Draw();
 		drawcalls++;
 	}
-
-	RenderQUeryEnd();
-	WriteRenderingMetrics();
-	if(param->skybox)
-		skybox->Draw(&view, &projection);
-	buffer->Unbind();
 }
 
 void Renderer::RenderQueryBegin()
@@ -79,9 +93,6 @@ void Renderer::WriteRenderingMetrics()
 	metrics->fragOut = &frag;
 	metrics->setPassCalls = &setPassCalls;
 	metrics->vsOut = &vert;
-
-	drawcalls = 0;
-	setPassCalls = 0;
 }
 
 void Renderer::UpdateTransform(Model* model)
