@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-UIManager::UIManager(SceneManager *scene , Metrics *metrics, Framebuffer* buffer)
+UIManager::UIManager(SceneManager *scene , Metrics *metrics, Framebuffer* buffer, RenderParams* param)
 {
 	printf("UI Manager\n");
 	TransformsManager = new TransformsManagerUI(scene);
@@ -11,7 +11,7 @@ UIManager::UIManager(SceneManager *scene , Metrics *metrics, Framebuffer* buffer
 	stats = new StatsUI(metrics);
 	gizmo = new GizmoUI(scene);
 	viewport = new ViewportUI(buffer, gizmo);
-	
+	menubar = new MenuBarUI(param);
 }
 
 void UIManager::Init(GLFWwindow* window)
@@ -105,6 +105,7 @@ void UIManager::DrawUI()
 {
 	
 	DockingFromHazel();
+	menubar->DrawUI();
 	viewport->DrawUI();
 	TransformsManager->DrawUI();
 	ShaderManager->DrawUI();

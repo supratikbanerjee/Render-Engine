@@ -8,6 +8,23 @@ Material::Material()
 
 void Material::ShaderParameters()
 {
+	switch (renderFace)
+	{
+	case 0:
+		glDisable(GL_CULL_FACE);
+		break;
+	case 1:
+		glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CW);
+		glCullFace(GL_FRONT);
+		break;
+	case 2:
+		glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CW);
+		glCullFace(GL_BACK);
+		break;
+	}
+
 	shader->setFloat("light_energy", light_energy);
 
 	shader->setVec3("base_color", base_color);
@@ -29,26 +46,13 @@ void Material::ShaderParameters()
 	shader->setBool("mipmap_auto", mipmap_auto);
 	shader->setBool("z_buffer", z_buffer);
 	shader->setBool("roughness_tex", rough_tex);
+	shader->setBool("metallic_tex", metallic_tex);
 }
 
 void Material::setRenderFace(int opt)
 {
-	switch (opt)
-	{
-	case 0:
-		glDisable(GL_CULL_FACE);
-		break;
-	case 1:
-		glEnable(GL_CULL_FACE);
-		glFrontFace(GL_CW);
-		glCullFace(GL_FRONT);
-		break;
-	case 2:
-		glEnable(GL_CULL_FACE);
-		glFrontFace(GL_CW);
-		glCullFace(GL_BACK);
-		break;
-	}
+	renderFace = opt;
+
 }
 
 Shader* Material::getShader()

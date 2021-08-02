@@ -8,6 +8,7 @@
 #include "stats_ui.h"
 #include "viewport_ui.h"
 #include "gizmo_ui.h"
+#include "menubar_ui.h"
 
 #include "..\imgui\imgui.h"
 #include "..\imgui\imgui_impl_glfw.h"
@@ -15,11 +16,12 @@
 
 #include "../application/transforms.h"
 #include "../application/scene_manager.h"
+#include "../RenderEngine.h"
 
 class UIManager
 {
 public:
-	UIManager(SceneManager*, Metrics*, Framebuffer*);
+	UIManager(SceneManager*, Metrics*, Framebuffer*, RenderParams*);
 	void Init(GLFWwindow*);
 	void Begin();
 	void DrawUI();
@@ -33,7 +35,7 @@ private:
 	SceneGraph* graph;
 	StatsUI* stats;
 	ViewportUI* viewport;
-	
+	MenuBarUI* menubar;
 };
 #endif
 

@@ -12,12 +12,13 @@
 #include "transforms.h"
 #include "metrics.h"
 #include "framebuffer.h"
+#include "../RenderEngine.h"
 
 class Renderer
 {
 public:
 	Renderer(Metrics*, Model*, SceneManager*, Framebuffer*);
-	void Render(Skybox*);
+	void Render(Skybox*, RenderParams*);
 private:
 	Framebuffer* buffer;
 	Metrics* metrics;

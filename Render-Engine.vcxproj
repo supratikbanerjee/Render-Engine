@@ -161,6 +161,7 @@
     <ClCompile Include="src\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\RenderEngine.cpp" />
     <ClCompile Include="src\ui\gizmo_ui.cpp" />
+    <ClCompile Include="src\ui\menubar_ui.cpp" />
     <ClCompile Include="src\ui\scene_graph.cpp" />
     <ClCompile Include="src\ui\shader_manager_ui.cpp" />
     <ClCompile Include="src\ui\stats_ui.cpp" />
@@ -196,7 +197,9 @@
     <ClInclude Include="src\imgui\imstb_rectpack.h" />
     <ClInclude Include="src\imgui\imstb_textedit.h" />
     <ClInclude Include="src\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\RenderEngine.h" />
     <ClInclude Include="src\ui\gizmo_ui.h" />
+    <ClInclude Include="src\ui\menubar_ui.h" />
     <ClInclude Include="src\ui\scene_graph.h" />
     <ClInclude Include="src\ui\shader_manager_ui.h" />
     <ClInclude Include="src\ui\stats_ui.h" />

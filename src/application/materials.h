@@ -29,5 +29,6 @@ public:
 	bool mipmap_auto = true;
 	bool z_buffer = false;
 	bool rough_tex = false;
-
+	bool metallic_tex = false;
+	int renderFace = 1;	
 };

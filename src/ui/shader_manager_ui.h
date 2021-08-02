@@ -11,7 +11,6 @@ public:
 	void DrawUI();
 
 private:
-	int item_current = 0;
 	Material *mat;
 	SceneManager* scene;
 	//ImGuiWindowFlags window_flags = 0;

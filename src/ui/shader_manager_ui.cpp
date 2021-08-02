@@ -38,8 +38,7 @@ void ShaderManagerUI::DrawUI()
 	ImGui::Text("PBR Shader\n");
 	ImGui::Text("\n");
 	const char* items[] = { "Both", "Front", "Back" };
-	ImGui::Combo("Render Face", &item_current, items, IM_ARRAYSIZE(items));
-	mat->setRenderFace(item_current);
+	ImGui::Combo("Render Face", &mat->renderFace, items, IM_ARRAYSIZE(items));
 	ImGui::SliderFloat("Light Energy", &mat->light_energy, 0.0f, 10.0f);
 	ImGui::Text("Shader Parameters");
 	ImGui::ColorEdit3(" Base color", (float*)&mat->base_color);
@@ -50,7 +49,7 @@ void ShaderManagerUI::DrawUI()
 	ImGui::SliderFloat(" Specular", &mat->specular, 0.0f, 1.0f);
 	ImGui::SliderFloat(" Roughness", &mat->roughness, 0.0f, 1.0f);
 
-	ImGui::SliderFloat(" Occlusion", &mat->occlusion, 0.0f, 2.0f);
+	ImGui::SliderFloat(" Occlusion", &mat->occlusion, 0.0f, 1.0f);
 	ImGui::SliderFloat(" IOR", &mat->ior, 0.0f, 3.0f);
 	ImGui::SliderFloat(" Reflection/Refraction", &mat->reflection_refratoin_ratio, 0.0f, 1.0f);
 	ImGui::Checkbox("Frensel", &mat->fresnel);
@@ -61,5 +60,6 @@ void ShaderManagerUI::DrawUI()
 	ImGui::Checkbox("Mipamap Auto", &mat->mipmap_auto);
 	ImGui::Checkbox("Z-Buffer", &mat->z_buffer);
 	ImGui::Checkbox("Roughness Map", &mat->rough_tex);
+	ImGui::Checkbox("Metallic Map", &mat->metallic_tex);
 	ImGui::End();
 }

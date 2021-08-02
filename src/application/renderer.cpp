@@ -12,22 +12,20 @@ Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Framebu
 	this->buffer = buffer;
 }
 
-void Renderer::Render(Skybox *skybox)
+void Renderer::Render(Skybox *skybox, RenderParams* param)
 {
 	buffer->Bind();
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if(param->wireframe && !param->shaded)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if(!param->wireframe && param->shaded)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	
 	glm::mat4 view = *scene->GetMainCamera()->GetViewMatrix();
 	glm::mat4 projection = *scene->GetMainCamera()->GetProjectionMatrix();
 	RenderQueryBegin();
-	//Draw stuff
-		
-	// TODO
-	// CHANGE RENDER MESH TO RENDER MODEL
-	// CHANGE TO CALL RENDER MESH RECURSIVELY
 
 	UpdateTransform(models);
 	for (int i = 0; i < *models->getChildCount(); i++)
@@ -52,7 +50,8 @@ void Renderer::Render(Skybox *skybox)
 
 	RenderQUeryEnd();
 	WriteRenderingMetrics();
-	skybox->Draw(&view, &projection);
+	if(param->skybox)
+		skybox->Draw(&view, &projection);
 	buffer->Unbind();
 }
 
