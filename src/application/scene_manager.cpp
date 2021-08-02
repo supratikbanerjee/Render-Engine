@@ -43,3 +43,8 @@ Camera* SceneManager::GetMainCamera()
 {
 	return camera;
 }
+
+Model* SceneManager::GetModels()
+{
+	return models;
+}

@@ -20,7 +20,7 @@ void Mesh::CreateMesh(vector<Vertex> vertices, vector<unsigned int> indices, vec
 	setupMesh();
 }
 
-void Mesh::Draw(Shader* shader)
+void Mesh::Draw(Shader* shader, string m_name)
 {
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
@@ -28,6 +28,10 @@ void Mesh::Draw(Shader* shader)
 
 		string name = textures[i].type;
 		shader->setInt((name).c_str(), i);
+		//if (!(name).compare("shadowMap"))
+		//{
+		//	printf("%s %s %d\n", name.c_str(), m_name.c_str(), i);
+		//}
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 	glBindVertexArray(VAO);

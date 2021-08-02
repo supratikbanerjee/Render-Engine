@@ -81,6 +81,6 @@ Material* Model::getMaterial()
 
 void Model::Draw()
 {
-	mesh->Draw(mat->getShader());
+	mesh->Draw(mat->getShader(), name);
 	mat->ShaderParameters();
 }

@@ -27,7 +27,7 @@ public:
 
 	Mesh();
 	void CreateMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
-	void Draw(Shader* shader);
+	void Draw(Shader* shader, string name);
 	
 
 private:

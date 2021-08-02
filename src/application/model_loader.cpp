@@ -2,10 +2,11 @@
 
 
 
-ModelLoader::ModelLoader(Metrics* metrics)
+ModelLoader::ModelLoader(Metrics* metrics, ShadowMaps* shadow)
 {
 	printf("Model Loader\n");
 	this->metrics = metrics;
+	this->shadow = shadow;
 }
 
 void ModelLoader::LoadTexture(const char* textureType, const char* typeName)
@@ -61,7 +62,11 @@ Model* ModelLoader::LoadModel()
 		LoadTexture(ambient[i], "texture_ambient");
 		LoadTexture(specular[i], "texture_specular");
 		LoadTexture(depth[i], "texture_depth");
-		
+
+		texture.id = *shadow->GetDepthMap();
+		texture.type = "shadowMap";
+		textures.push_back(texture);
+
 		Mesh *mesh = new Mesh();
 		Model *child = new Model();
 		mesh->CreateMesh(vertexes, indices, textures);

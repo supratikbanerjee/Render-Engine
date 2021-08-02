@@ -2,71 +2,95 @@
 #include "renderer.h"
 
 
-Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Framebuffer* buffer, RenderParams* param)
+Renderer::Renderer(Metrics *metrics, SceneManager* scene, Framebuffer* buffer, RenderParams* param, ShadowMaps* shadow)
 {
 	printf("Renderer\n");
 	//printf("Renderer %d", transform);
 	this->param = param;
-	this->models = models;
 	this->scene = scene;
 	this->metrics = metrics;
 	this->buffer = buffer;
+	this->shadow = shadow;
 }
 
 void Renderer::Render(Skybox *skybox)
 {
-	buffer->Bind();
 	PreRender();
+
 	RenderQueryBegin();
 
-	GeometryPass();
+	ShadowPass();
 
-	RenderQUeryEnd();
-	WriteRenderingMetrics();
+	buffer->Bind();
+	
+	RenderScene(GEOMETRY);
+	
 	if(param->skybox)
 		skybox->Draw(&view, &projection);
 
 	buffer->Unbind();
+
+	RenderQUeryEnd();
+	WriteRenderingMetrics();
 }
 
 void Renderer::PreRender()
 {
 	drawcalls = 0;
 	setPassCalls = 0;
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (param->wireframe && !param->shaded)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	if (!param->wireframe && param->shaded)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	view = *scene->GetMainCamera()->GetViewMatrix();
-	projection = *scene->GetMainCamera()->GetProjectionMatrix();
 }
 
 
-void Renderer::GeometryPass()
+void Renderer::RenderScene(PASS RENDERPASS)
 {
-	for (int i = 0; i < *models->getChildCount(); i++)
+	view = *scene->GetMainCamera()->GetViewMatrix();
+	projection = *scene->GetMainCamera()->GetProjectionMatrix();
+	for (int i = 0; i < *scene->GetModels()->getChildCount(); i++)
 	{
-		object = models->getChild(&i);
+		object = scene->GetModels()->getChild(&i);
 		UpdateTransform(object);
 
-		shader = object->getShader();
+		if(RENDERPASS == GEOMETRY)
+			shader = object->getShader();
+		if(RENDERPASS == SHADOW)
+			shader = shadow->GetShader();
 		shader->use();
 		setPassCalls++;
 
-		shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
-		shader->setVec4("lightVector", scene->getLighPosition());
+		shader->setMat4("lightSpaceMatrix", lightSpaceMatrix);
 
 		model = &object->getTransform()->model;
 		shader->setMat4("model", *model);
-		shader->setMat4("MVP", projection * view * *model);
 
+		if (RENDERPASS == GEOMETRY)
+		{
+			shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
+			shader->setVec4("lightVector", scene->getLighPosition());
+			shader->setMat4("MVP", projection * view * *model);
+		}
 		object->Draw();
 		drawcalls++;
 	}
+}
+
+void Renderer::ShadowPass()
+{
+
+	float near_plane = 1.0f, far_plane = 7.5f;
+	//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	lightView = glm::lookAt(glm::vec3(scene->getLighPosition()), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	lightSpaceMatrix = lightProjection * lightView;
+
+	shadow->Bind();
+	RenderScene(SHADOW);
+	shadow->Unbind();
 }
 
 void Renderer::RenderQueryBegin()

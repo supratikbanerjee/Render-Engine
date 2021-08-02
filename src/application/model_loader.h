@@ -1,5 +1,6 @@
 #ifndef MODELLOADER_H
 #define MODELLOADER_H
+#include "shadows.h"
 #include "model_manager.h"
 #include "mesh_manager.h"
 #include "metrics.h"
@@ -10,7 +11,7 @@ class ModelLoader
 {
 public:
 	
-	ModelLoader(Metrics*);
+	ModelLoader(Metrics*, ShadowMaps*);
 	
 	Model* LoadModel();
 
@@ -40,7 +41,7 @@ private:
 	Model root;
 	std::string default_mat = "Assets/defaults/default_material.png";
 	TextureLoader TexLoader;
-
+	ShadowMaps* shadow;
 	Metrics* metrics;
 	int verts = 0;
 	int tris = 0;

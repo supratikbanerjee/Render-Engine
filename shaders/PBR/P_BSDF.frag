@@ -6,12 +6,15 @@ out vec4 frag_colour;
 in vec2 TexCoords;
 in vec3 WorldPosition;
 in vec3 Normals;
+in vec4 PosLightSpace;
 
 vec4 lightSource;
 vec3 TangentLightPos;
 vec3 TangentViewPos;
 vec3 TangentWorldPos;
 mat3 tbn;
+
+uniform sampler2D shadowMap;
 uniform mat4 model;
 uniform sampler2D texture_diffuse;
 uniform sampler2D texture_normal;
@@ -231,6 +234,41 @@ vec3 dipole_bssrdf()
     //vec3(0.44, 0.22, 0.1);
 }
 
+float CalculateShadows(vec3 L)
+{
+// perform perspective divide
+    vec3 projCoords = PosLightSpace.xyz / PosLightSpace.w;
+    // transform to [0,1] range
+    projCoords = projCoords * 0.5 + 0.5;
+    // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
+    // get depth of current fragment from light's perspective
+    float currentDepth = projCoords.z;
+    // calculate bias (based on depth map resolution and slope)
+    vec3 normal = normalize(Normals);
+    float bias = max(0.05 * (1.0 - dot(normal, L)), 0.005);
+    // check whether current frag pos is in shadow
+    // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
+    // PCF
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x)
+    {
+        for(int y = -1; y <= 1; ++y)
+        {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;        
+        }    
+    }
+    shadow /= 9.0;
+    
+    // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
+    if(projCoords.z > 1.0)
+        shadow = 0.0;
+        
+    return shadow;
+}
+
 void main()
 {
     tbn = calculate_tbn();
@@ -318,9 +356,11 @@ void main()
     //{
     //    specular_val = specular_val * vec3(texture(texture_specular, TexCoords));
     //}
-    BSDF = BSDF + specular * specular_val;
-
-    float ambient = texture(texture_ambient, TexCoords).r;
+    float shadow = CalculateShadows(L);
+    vec3 ambient = 0.15 * albedo;
+    BSDF = (ambient + (1.0 - shadow) * (BSDF + (specular * specular_val)));
+    //(1.0 - shadow) *
+    float ambient_occlusion = texture(texture_ambient, TexCoords).r;
 
     //vec3 kS = F;
     //vec3 kD = vec3(1.0)-kS;
@@ -328,7 +368,7 @@ void main()
     
     //Lo += (kD* base_color * (albedo / PI) + specular);
     BSDF = BSDF * light_energy;
-    vec3 color = mix(BSDF, BSDF * ambient, occlusion); // change 1.0 as AO param
+    vec3 color = mix(BSDF, BSDF * ambient_occlusion, occlusion); // change 1.0 as AO param
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 
     
