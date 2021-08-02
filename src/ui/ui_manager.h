@@ -6,6 +6,7 @@
 #include "shader_manager_ui.h"
 #include "scene_graph.h"
 #include "stats_ui.h"
+#include "viewport_ui.h"
 
 #include "..\imgui\imgui.h"
 #include "..\imgui\imgui_impl_glfw.h"
@@ -17,7 +18,7 @@
 class UIManager
 {
 public:
-	UIManager(SceneManager*, Metrics*);
+	UIManager(SceneManager*, Metrics*, Framebuffer*);
 	void Init(GLFWwindow*);
 	void Begin();
 	void DrawUI();
@@ -29,6 +30,7 @@ private:
 	ShaderManagerUI* ShaderManager;
 	SceneGraph* graph;
 	StatsUI* stats;
+	ViewportUI* viewport;
 };
 #endif
 

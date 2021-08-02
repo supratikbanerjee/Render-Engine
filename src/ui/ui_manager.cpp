@@ -2,13 +2,14 @@
 #include <iostream>
 
 
-UIManager::UIManager(SceneManager *scene , Metrics *metrics)
+UIManager::UIManager(SceneManager *scene , Metrics *metrics, Framebuffer* buffer)
 {
 	printf("UI Manager\n");
 	TransformsManager = new TransformsManagerUI(scene);
 	ShaderManager = new ShaderManagerUI(scene);
 	graph = new SceneGraph(scene);
 	stats = new StatsUI(metrics);
+	viewport = new ViewportUI(buffer);
 	//printf("UIManager %d", transform);
 }
 
@@ -102,6 +103,7 @@ void UIManager::DrawUI()
 {
 	
 	DockingFromHazel();
+	viewport->DrawUI();
 	TransformsManager->DrawUI();
 	ShaderManager->DrawUI();
 	graph->DrawUI();

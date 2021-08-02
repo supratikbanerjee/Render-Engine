@@ -60,6 +60,8 @@ public:
 
 	glm::mat4 GetViewProjectionMatrix();
 
+	void SetViewportSize(glm::ivec2*);
+
 	// Processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
 	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
 
@@ -78,7 +80,6 @@ private:
 	glm::mat4 projection;
 	glm::vec3 Position;
 	glm::mat4 ViewProjection;
-	int display_w = 1920;
-	int display_h = 1080;
+	glm::ivec2* viewportSize;
 };
 #endif

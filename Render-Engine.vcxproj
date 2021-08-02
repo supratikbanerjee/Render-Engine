@@ -165,6 +165,7 @@
     <ClCompile Include="src\ui\stats_ui.cpp" />
     <ClCompile Include="src\ui\transforms_manager_ui.cpp" />
     <ClCompile Include="src\ui\ui_manager.cpp" />
+    <ClCompile Include="src\ui\viewport_ui.cpp" />
     <ClCompile Include="src\utils\OBJ_Loader.cpp" />
     <ClCompile Include="src\utils\quaternion_rotaiton.cpp" />
     <ClCompile Include="src\utils\shader_manager.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="src\ui\stats_ui.h" />
     <ClInclude Include="src\ui\transforms_manager_ui.h" />
     <ClInclude Include="src\ui\ui_manager.h" />
+    <ClInclude Include="src\ui\viewport_ui.h" />
     <ClInclude Include="src\utils\OBJ_Loader.h" />
     <ClInclude Include="src\utils\quaternion_rotaiton.h" />
     <ClInclude Include="src\utils\shader_manager.h" />

@@ -35,7 +35,7 @@ glm::mat4* Camera::GetViewMatrix()
 
 glm::mat4* Camera::GetProjectionMatrix()
 {
-	projection = glm::perspective(glm::radians(Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(Zoom), (float)viewportSize->x / (float)viewportSize->y, 0.1f, 100.0f);
 	return &projection;
 }
 
@@ -48,6 +48,11 @@ glm::mat4 Camera::GetViewProjectionMatrix()
 {
 	ViewProjection = *GetProjectionMatrix() * *GetViewMatrix();
 	return ViewProjection;
+}
+
+void Camera::SetViewportSize(glm::ivec2* viewportSize)
+{
+	this->viewportSize = viewportSize;
 }
 
 void Camera::setCamPosition(glm::vec3* in_camPos)
