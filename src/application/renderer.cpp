@@ -12,7 +12,7 @@ Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Framebu
 	this->buffer = buffer;
 }
 
-void Renderer::Render(Skybox *skybox, Camera *camera)
+void Renderer::Render(Skybox *skybox)
 {
 	buffer->Bind();
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -20,8 +20,8 @@ void Renderer::Render(Skybox *skybox, Camera *camera)
 	
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	
-	glm::mat4 view = *camera->GetViewMatrix();
-	glm::mat4 projection = *camera->GetProjectionMatrix();
+	glm::mat4 view = *scene->GetMainCamera()->GetViewMatrix();
+	glm::mat4 projection = *scene->GetMainCamera()->GetProjectionMatrix();
 	RenderQueryBegin();
 	//Draw stuff
 		
@@ -39,7 +39,7 @@ void Renderer::Render(Skybox *skybox, Camera *camera)
 		shader->use();
 		setPassCalls++;
 
-		shader->setVec3("viewPos", *camera->GetCameraPosition());
+		shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
 		shader->setVec4("lightVector", scene->getLighPosition());
 		
 		model = &object->getTransform()->model;

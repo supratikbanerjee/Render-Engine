@@ -2,10 +2,11 @@
 
 #include "scene_manager.h"
 
-SceneManager::SceneManager(Model* models)
+SceneManager::SceneManager(Model* models, Camera* camera)
 {
 	printf("Scene Manager\n");
 	this->models = models;
+	this->camera = camera;
 }
 
 void SceneManager::setActiveModelId(int* id)
@@ -36,4 +37,9 @@ glm::vec4 SceneManager::getLighPosition()
 std::string* SceneManager::getModelName(int* id)
 {
 	return models->getChild(id)->getName();
+}
+
+Camera* SceneManager::GetMainCamera()
+{
+	return camera;
 }

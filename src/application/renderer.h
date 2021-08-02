@@ -17,7 +17,7 @@ class Renderer
 {
 public:
 	Renderer(Metrics*, Model*, SceneManager*, Framebuffer*);
-	void Render(Skybox*, Camera*);
+	void Render(Skybox*);
 private:
 	Framebuffer* buffer;
 	Metrics* metrics;
