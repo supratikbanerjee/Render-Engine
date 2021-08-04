@@ -6,3 +6,5 @@ struct RenderParams
 	bool wireframe = false;
 	bool skybox = true;
 };
+
+enum class PASS { SHADOW, GEOMETRY };

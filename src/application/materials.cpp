@@ -6,25 +6,8 @@ Material::Material()
 	shader->CompileShaders("shaders/PBR/PBR.vs.glsl", "shaders/PBR/P_BSDF.frag");
 }
 
-void Material::ShaderParameters()
+void Material::ShaderParameters(PASS RENDERPASS)
 {
-	switch (renderFace)
-	{
-	case 0:
-		glDisable(GL_CULL_FACE);
-		break;
-	case 1:
-		glEnable(GL_CULL_FACE);
-		glFrontFace(GL_CW);
-		glCullFace(GL_FRONT);
-		break;
-	case 2:
-		glEnable(GL_CULL_FACE);
-		glFrontFace(GL_CW);
-		glCullFace(GL_BACK);
-		break;
-	}
-
 	shader->setFloat("light_energy", light_energy);
 
 	shader->setVec3("base_color", base_color);
@@ -47,12 +30,38 @@ void Material::ShaderParameters()
 	shader->setBool("z_buffer", z_buffer);
 	shader->setBool("roughness_tex", rough_tex);
 	shader->setBool("metallic_tex", metallic_tex);
+
+	RenderStates(RENDERPASS);
 }
 
-void Material::setRenderFace(int opt)
+void Material::RenderStates(PASS RENDERPASS)
 {
-	renderFace = opt;
+	if (RENDERPASS == PASS::SHADOW)
+	{
+		shadowTempFace = renderFace;
+		renderFace = 2;
+	}
+	else if (RENDERPASS == PASS::GEOMETRY)
+	{
+		renderFace = shadowTempFace;
+	}
 
+	switch (renderFace)
+	{
+	case 0:
+		glDisable(GL_CULL_FACE);
+		break;
+	case 1:
+		glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CW);
+		glCullFace(GL_FRONT);
+		break;
+	case 2:
+		glEnable(GL_CULL_FACE);
+		glFrontFace(GL_CW);
+		glCullFace(GL_BACK);
+		break;
+	}
 }
 
 Shader* Material::getShader()

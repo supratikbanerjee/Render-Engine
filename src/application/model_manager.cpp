@@ -79,8 +79,8 @@ Material* Model::getMaterial()
 	return mat;
 }
 
-void Model::Draw()
+void Model::Draw(PASS RENDERPASS)
 {
+	mat->ShaderParameters(RENDERPASS);
 	mesh->Draw(mat->getShader(), name);
-	mat->ShaderParameters();
 }

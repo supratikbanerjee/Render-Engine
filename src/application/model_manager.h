@@ -5,6 +5,7 @@
 #include "mesh_manager.h"
 #include "transforms.h"
 #include "materials.h"
+#include "../RenderEngine.h"
 
 class Model
 {
@@ -19,7 +20,7 @@ public:
 	void getId(int&);
 	void getChildren(std::vector<Model*>&);
 	void Init();
-	void Draw();
+	void Draw(PASS);
 	int* getChildCount();
 	Shader* getShader();
 

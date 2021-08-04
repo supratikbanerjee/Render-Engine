@@ -69,6 +69,7 @@ Model* ModelLoader::LoadModel()
 
 		Mesh *mesh = new Mesh();
 		Model *child = new Model();
+		child->Init();
 		mesh->CreateMesh(vertexes, indices, textures);
 		std::string name = obj[i];
 		name = std::string(obj[i], 0, name.length() - 4);

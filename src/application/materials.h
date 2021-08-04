@@ -1,5 +1,6 @@
 #pragma once
 #include "../utils/shader_manager.h"
+#include "../RenderEngine.h"
 
 class Material
 {
@@ -7,8 +8,7 @@ public:
 	Material();
 	Shader* shader;
 	Shader* getShader();
-	void ShaderParameters();
-	void setRenderFace(int);
+	void ShaderParameters(PASS);
 
 	float light_energy = 5.0;
 	glm::vec3 base_color = glm::vec3(1.0f);
@@ -31,4 +31,7 @@ public:
 	bool rough_tex = false;
 	bool metallic_tex = false;
 	int renderFace = 1;	
+private:
+	void RenderStates(PASS);
+	int shadowTempFace = 1;
 };

@@ -23,7 +23,7 @@ void Renderer::Render(Skybox *skybox)
 
 	buffer->Bind();
 	
-	RenderScene(GEOMETRY);
+	RenderScene(PASS::GEOMETRY);
 	
 	if(param->skybox)
 		skybox->Draw(&view, &projection);
@@ -56,9 +56,9 @@ void Renderer::RenderScene(PASS RENDERPASS)
 		object = scene->GetModels()->getChild(&i);
 		UpdateTransform(object);
 
-		if(RENDERPASS == GEOMETRY)
+		if(RENDERPASS == PASS::GEOMETRY)
 			shader = object->getShader();
-		if(RENDERPASS == SHADOW)
+		if(RENDERPASS == PASS::SHADOW)
 			shader = shadow->GetShader();
 		shader->use();
 		setPassCalls++;
@@ -68,13 +68,13 @@ void Renderer::RenderScene(PASS RENDERPASS)
 		model = &object->getTransform()->model;
 		shader->setMat4("model", *model);
 
-		if (RENDERPASS == GEOMETRY)
+		if (RENDERPASS == PASS::GEOMETRY)
 		{
 			shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
 			shader->setVec4("lightVector", scene->getLighPosition());
 			shader->setMat4("MVP", projection * view * *model);
 		}
-		object->Draw();
+		object->Draw(RENDERPASS);
 		drawcalls++;
 	}
 }
@@ -82,14 +82,14 @@ void Renderer::RenderScene(PASS RENDERPASS)
 void Renderer::ShadowPass()
 {
 
-	float near_plane = 1.0f, far_plane = 7.5f;
+	float near_plane = 0.1f, far_plane = 100.0f;
 	//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
 	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
 	lightView = glm::lookAt(glm::vec3(scene->getLighPosition()), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
 
 	shadow->Bind();
-	RenderScene(SHADOW);
+	RenderScene(PASS::SHADOW);
 	shadow->Unbind();
 }
 
@@ -122,10 +122,11 @@ void Renderer::WriteRenderingMetrics()
 void Renderer::UpdateTransform(Model* model)
 {
 	glm::mat4 global = model->getTransform()->model;
-	global = glm::scale(glm::mat4(1.0f), model->getTransform()->scale);
-	global = glm::translate(global, model->getTransform()->translation);
+	
+	global = glm::translate(glm::mat4(1.0f), model->getTransform()->translation);
 	global = glm::rotate(global, model->getTransform()->rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
 	global = glm::rotate(global, model->getTransform()->rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
 	global = glm::rotate(global, model->getTransform()->rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	global = glm::scale(global , model->getTransform()->scale);
 	model->getTransform()->model = global;
 }
