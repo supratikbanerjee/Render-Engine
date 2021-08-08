@@ -22,7 +22,7 @@ private:
 	Camera* camera;
 	Model* models;
 	int active_model_id = 0;
-	glm::vec4 lightPos = glm::vec4(2.0f, 1.0f, 1.0f, 1.0f);
+	glm::vec4 lightPos = glm::vec4(2.0f, 1.0f, 1.0f, 0.0f);
 };
 #endif
 

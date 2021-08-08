@@ -277,8 +277,8 @@ void main()
     if(lightVector.w == 1.0)
         lightSource = normalize(lightVector - vec4(WorldPosition, 0.0f));
     else if(lightVector.w == 0)
-        lightSource = normalize(-lightVector);
-    vec3 L = vec3(lightSource.x, lightSource.y, lightSource.z);
+        lightSource = normalize(lightVector);
+    vec3 L = vec3(lightSource.xyz);
     vec3 V = normalize(viewPos - WorldPosition);
     vec3 H = normalize(L + V);
     vec3 N = getNormals(tbn);
