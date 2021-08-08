@@ -32,6 +32,7 @@ Model* ModelLoader::LoadModel()
 	const char* metallic[] = {"", "dragonbody_metallic.png", "dragonchain_metallic.png" };
 	const char* roughness[] = {"", "dragonbody_roughness.png", "dragonchain_roughness.png" };
 	const char* ambient[] = {"", "dragonbody_ambient.png", "dragonchain_ambient.png" };
+	const char* emissive[] = { "", "DragonMain_Emit.png", "" };
 	const char* specular[] = {"", "", "" };
 	const char* depth[] = {"", "", "" };
 
@@ -62,6 +63,7 @@ Model* ModelLoader::LoadModel()
 		LoadTexture(ambient[i], "texture_ambient");
 		LoadTexture(specular[i], "texture_specular");
 		LoadTexture(depth[i], "texture_depth");
+		LoadTexture(emissive[i], "texture_emissive");
 
 		texture.id = *shadow->GetDepthMap();
 		texture.type = "shadowMap";

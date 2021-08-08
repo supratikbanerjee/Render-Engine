@@ -23,6 +23,7 @@ uniform sampler2D texture_specular;
 uniform sampler2D texture_roughness;  
 uniform sampler2D texture_ambient;
 uniform sampler2D texture_depth;
+uniform sampler2D texture_emissive;
 
 uniform vec3 viewPos = vec3(1.0f, 1.0f, 1.0f);
 uniform vec4 lightVector = vec4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -33,6 +34,7 @@ const float PI = 3.14159265359;
 float mipmapLevel;
 float metallic;
 float roughness;
+vec3 emission = vec3(0.0f);
 float heightScale = 0.1f;
 // CLEAN
 uniform float occlusion;
@@ -60,7 +62,7 @@ uniform bool roughness_tex = false;
 uniform bool normalMapping = false;
 uniform bool mipmap_auto = true;
 uniform bool z_buffer = false;
-
+uniform bool emissive = true;
 
 float saturate(float a) { return clamp(a, 0.0, 1.0); }
 
@@ -358,7 +360,10 @@ void main()
     //}
     float shadow = CalculateShadows(L);
     vec3 ambient = 0.15 * albedo;
-    BSDF = (ambient + (1.0 - shadow) * (BSDF + (specular * specular_val)));
+
+    if(emissive)
+        emission = pow(textureLod(texture_emissive, TexCoords, mipmapLevel).rgb, vec3(2.2));
+    BSDF = (ambient + (1.0 - shadow) * (BSDF + (specular * specular_val))) ;
     //(1.0 - shadow) *
     float ambient_occlusion = texture(texture_ambient, TexCoords).r;
 
@@ -371,7 +376,7 @@ void main()
     vec3 color = mix(BSDF, BSDF * ambient_occlusion, occlusion); // change 1.0 as AO param
     color = color / (color + vec3(1.0));
     color = pow(color, vec3(1.0/2.2)); 
-    
+    color = color + emission;
     if(z_buffer)
         frag_colour = vec4(vec3(gl_FragCoord.z), 1.0);
     else

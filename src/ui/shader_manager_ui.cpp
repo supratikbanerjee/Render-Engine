@@ -61,5 +61,6 @@ void ShaderManagerUI::DrawUI()
 	ImGui::Checkbox("Z-Buffer", &mat->z_buffer);
 	ImGui::Checkbox("Roughness Map", &mat->rough_tex);
 	ImGui::Checkbox("Metallic Map", &mat->metallic_tex);
+	ImGui::Checkbox("Emissive", &mat->emissive);
 	ImGui::End();
 }

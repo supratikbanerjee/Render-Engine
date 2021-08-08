@@ -31,6 +31,7 @@ public:
 	bool rough_tex = false;
 	bool metallic_tex = false;
 	int renderFace = 1;	
+	bool emissive = false;
 private:
 	void RenderStates(PASS);
 	int shadowTempFace = 1;

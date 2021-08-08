@@ -30,6 +30,7 @@ void Material::ShaderParameters(PASS RENDERPASS)
 	shader->setBool("z_buffer", z_buffer);
 	shader->setBool("roughness_tex", rough_tex);
 	shader->setBool("metallic_tex", metallic_tex);
+	shader->setBool("emissive", emissive);
 
 	RenderStates(RENDERPASS);
 }
