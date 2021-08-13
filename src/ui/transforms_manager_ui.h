@@ -15,7 +15,7 @@ public:
 	void DrawUI();
 
 private:
-	Model* model;
+	Entity* model;
 	SceneManager* scene;
 	bool auto_rotate_x = false;
 	bool auto_rotate_y = false;

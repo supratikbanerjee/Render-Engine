@@ -4,25 +4,29 @@
 #include <glm/glm.hpp>
 #include "model_loader.h"
 #include "camera.h"
+#include "light.h"
 
 class SceneManager
 {
 public:
-	SceneManager(Model*, Camera*);
-	glm::vec4 getLighPosition();
+	SceneManager(Entity*, Camera*);
+	
 	void setActiveModelId(int*);
 	int* getActiveModelId();
 	int* getModelCount();
-	Model* getActiveModel();
+	Entity* getActiveModel();
 	std::string* getModelName(int*);
 	Camera* GetMainCamera();
-	Model* GetModels();
+	Entity* GetModels();
 
+
+	glm::vec4* getLightVector();
 private:
 	Camera* camera;
-	Model* models;
+	Entity* entities;
 	int active_model_id = 0;
-	glm::vec4 lightPos = glm::vec4(2.0f, 1.0f, 1.0f, 0.0f);
+	//glm::vec4 lightPos = glm::vec4(2.0f, 1.0f, 1.0f, 0.0f);
+	Light* mainLight;
 };
 #endif
 

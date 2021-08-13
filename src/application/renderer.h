@@ -35,7 +35,7 @@ private:
 	SceneManager *scene;
 	Skybox sky;
 	//Model *models;
-	Model *object;
+	Entity * entity;
 	glm::mat4* model;
 	GLuint query1;
 	GLuint query2;
@@ -45,7 +45,7 @@ private:
 	void PreRender();
 	void RenderScene(PASS);
 	void ShadowPass();
-	void UpdateTransform(Model*);
+	void UpdateTransform(Entity*);
 	void WriteRenderingMetrics();
 	void RenderQueryBegin();
 	void RenderQUeryEnd();

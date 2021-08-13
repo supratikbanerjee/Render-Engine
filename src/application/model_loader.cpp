@@ -24,7 +24,7 @@ void ModelLoader::LoadTexture(const char* textureType, const char* typeName)
 	textures.push_back(texture);
 }
 
-Model* ModelLoader::LoadModel()
+Entity* ModelLoader::LoadModel()
 {
 	const char* obj[] = { "plane_f.obj", "dragonbody.obj", "dragonchain.obj" };
 	const char* albedo[] = {"", "dragonbody_diffuse.png", "dragonchain_diffuse.png" };
@@ -37,7 +37,6 @@ Model* ModelLoader::LoadModel()
 	const char* depth[] = {"", "", "" };
 
 	model_count = (sizeof(obj) / sizeof(obj[0]));
-	root.Init();
 
 	for (int i = 0; i < model_count; i++)
 	{
@@ -71,14 +70,13 @@ Model* ModelLoader::LoadModel()
 
 		Mesh *mesh = new Mesh();
 		Model *child = new Model();
-		child->Init();
 		mesh->CreateMesh(vertexes, indices, textures);
 		std::string name = obj[i];
 		name = std::string(obj[i], 0, name.length() - 4);
-		child->setName(&name);
+		child->setName(name);
 		child->setId(&i);
 		child->setMesh(mesh);
-		child->Init();
+		//child->Init();
 		root.AddChild(child);
 
 		verts += vertexes.size();

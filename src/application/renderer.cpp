@@ -53,29 +53,33 @@ void Renderer::RenderScene(PASS RENDERPASS)
 	projection = *scene->GetMainCamera()->GetProjectionMatrix();
 	for (int i = 0; i < *scene->GetModels()->getChildCount(); i++)
 	{
-		object = scene->GetModels()->getChild(&i);
-		UpdateTransform(object);
+		entity = scene->GetModels()->getChild(&i);
+		UpdateTransform(entity);
 
-		if(RENDERPASS == PASS::GEOMETRY)
-			shader = object->getShader();
-		if(RENDERPASS == PASS::SHADOW)
-			shader = shadow->GetShader();
-		shader->use();
-		setPassCalls++;
-
-		shader->setMat4("lightSpaceMatrix", lightSpaceMatrix);
-
-		model = &object->getTransform()->model;
-		shader->setMat4("model", *model);
-
-		if (RENDERPASS == PASS::GEOMETRY)
+		if (entity->type == ENTITYTYPE::MODEL)
 		{
-			shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
-			shader->setVec4("lightVector", scene->getLighPosition());
-			shader->setMat4("MVP", projection * view * *model);
+			Model* object = (Model*)entity;
+			if (RENDERPASS == PASS::GEOMETRY)
+				shader = object->getShader();
+			if (RENDERPASS == PASS::SHADOW)
+				shader = shadow->GetShader();
+			shader->use();
+			setPassCalls++;
+
+			shader->setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+			model = &object->getTransform()->model;
+			shader->setMat4("model", *model);
+
+			if (RENDERPASS == PASS::GEOMETRY)
+			{
+				shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
+				shader->setVec4("lightVector", *scene->getLightVector());
+				shader->setMat4("MVP", projection * view * *model);
+			}
+			object->Draw(RENDERPASS);
+			drawcalls++;
 		}
-		object->Draw(RENDERPASS);
-		drawcalls++;
 	}
 }
 
@@ -85,7 +89,7 @@ void Renderer::ShadowPass()
 	float near_plane = 0.1f, far_plane = 100.0f;
 	//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
 	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-	lightView = glm::lookAt(glm::vec3(scene->getLighPosition()), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	lightView = glm::lookAt(glm::vec3(*scene->getLightVector()), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
 
 	shadow->Bind();
@@ -119,7 +123,7 @@ void Renderer::WriteRenderingMetrics()
 	metrics->vsOut = &vert;
 }
 
-void Renderer::UpdateTransform(Model* model)
+void Renderer::UpdateTransform(Entity* model)
 {
 	glm::mat4 global = model->getTransform()->model;
 	

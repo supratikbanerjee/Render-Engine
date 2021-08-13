@@ -2,11 +2,14 @@
 
 #include "scene_manager.h"
 
-SceneManager::SceneManager(Model* models, Camera* camera)
+SceneManager::SceneManager(Entity* entities, Camera* camera)
 {
 	printf("Scene Manager\n");
-	this->models = models;
+	this->entities = entities;
 	this->camera = camera;
+	this->mainLight = new Light();
+	mainLight->setName("Light");
+	this->entities->AddChild(mainLight);
 }
 
 void SceneManager::setActiveModelId(int* id)
@@ -21,22 +24,22 @@ int* SceneManager::getActiveModelId()
 
 int* SceneManager::getModelCount()
 {
-	return models->getChildCount();
+	return entities->getChildCount();
 }
 
-Model* SceneManager::getActiveModel()
+Entity* SceneManager::getActiveModel()
 {
-	return models->getChild(&active_model_id);
+	return entities->getChild(&active_model_id);
 }
 
-glm::vec4 SceneManager::getLighPosition()
+glm::vec4* SceneManager::getLightVector()
 {
-	return lightPos;
+	return mainLight->GetLightVector();
 }
 
 std::string* SceneManager::getModelName(int* id)
 {
-	return models->getChild(id)->getName();
+	return entities->getChild(id)->getName();
 }
 
 Camera* SceneManager::GetMainCamera()
@@ -44,7 +47,7 @@ Camera* SceneManager::GetMainCamera()
 	return camera;
 }
 
-Model* SceneManager::GetModels()
+Entity* SceneManager::GetModels()
 {
-	return models;
+	return entities;
 }

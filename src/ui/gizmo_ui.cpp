@@ -22,7 +22,7 @@ void GizmoUI::DrawGizmo(glm::vec2 viewportBounds[])
 	glm::mat4* cameraProjection = scene->GetMainCamera()->GetProjectionMatrix();
 	glm::mat4* cameraView = scene->GetMainCamera()->GetViewMatrix();
 
-	Model* selected = scene->getActiveModel();
+	Model* selected = (Model*)scene->getActiveModel();
 	glm::mat4 transform = selected->getTransform()->model;
 	ImGuizmo::Manipulate(glm::value_ptr(*cameraView), glm::value_ptr(*cameraProjection),
 		(ImGuizmo::OPERATION)gizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));

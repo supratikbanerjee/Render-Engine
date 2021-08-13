@@ -13,7 +13,7 @@ public:
 	
 	ModelLoader(Metrics*, ShadowMaps*);
 	
-	Model* LoadModel();
+	Entity* LoadModel();
 
 private:
 	std::string base = "Assets/";
@@ -38,7 +38,7 @@ private:
 	Vertex vertex;
 	Texture texture;
 	int model_count;
-	Model root;
+	Entity root;
 	std::string default_mat = "Assets/defaults/default_material.png";
 	TextureLoader TexLoader;
 	ShadowMaps* shadow;

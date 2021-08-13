@@ -134,7 +134,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\application\camera.cpp" />
+    <ClCompile Include="src\application\ecs\entity.cpp" />
     <ClCompile Include="src\application\framebuffer.cpp" />
+    <ClCompile Include="src\application\light.cpp" />
     <ClCompile Include="src\application\materials.cpp" />
     <ClCompile Include="src\application\mesh_manager.cpp" />
     <ClCompile Include="src\application\metrics.cpp" />
@@ -177,7 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\camera.h" />
+    <ClInclude Include="src\application\ecs\entity.h" />
     <ClInclude Include="src\application\framebuffer.h" />
+    <ClInclude Include="src\application\light.h" />
     <ClInclude Include="src\application\materials.h" />
     <ClInclude Include="src\application\mesh_manager.h" />
     <ClInclude Include="src\application\metrics.h" />

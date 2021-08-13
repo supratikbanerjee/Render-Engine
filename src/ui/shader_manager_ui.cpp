@@ -33,34 +33,39 @@ ShaderManagerUI::ShaderManagerUI(SceneManager* scene)
 */
 void ShaderManagerUI::DrawUI()
 {
-	mat = scene->getActiveModel()->getMaterial();
-	ImGui::Begin("Shader");
-	ImGui::Text("PBR Shader\n");
-	ImGui::Text("\n");
-	const char* items[] = { "Both", "Front", "Back" };
-	ImGui::Combo("Render Face", &mat->renderFace, items, IM_ARRAYSIZE(items));
-	ImGui::SliderFloat("Light Energy", &mat->light_energy, 0.0f, 10.0f);
-	ImGui::Text("Shader Parameters");
-	ImGui::ColorEdit3(" Base color", (float*)&mat->base_color);
-	ImGui::SliderFloat(" Subsurface", &mat->subsurface, 0.0f, 1.0f);
-	ImGui::DragFloat3(" Subsurface Radius", &mat->subsurface_radius[0], 0.01f);
-	ImGui::ColorEdit3(" Subsurface Color", (float*)&mat->subsurface_color);
-	ImGui::SliderFloat(" Metallic", &mat->metallic, 0.0f, 1.0f);
-	ImGui::SliderFloat(" Specular", &mat->specular, 0.0f, 1.0f);
-	ImGui::SliderFloat(" Roughness", &mat->roughness, 0.0f, 1.0f);
+	Entity* entity = scene->getActiveModel();
+	if (entity->type == ENTITYTYPE::MODEL)
+	{
+		Model* model = (Model*)entity;
+		mat = model->getMaterial();
+		ImGui::Begin("Shader");
+		ImGui::Text("PBR Shader\n");
+		ImGui::Text("\n");
+		const char* items[] = { "Both", "Front", "Back" };
+		ImGui::Combo("Render Face", &mat->renderFace, items, IM_ARRAYSIZE(items));
+		ImGui::SliderFloat("Light Energy", &mat->light_energy, 0.0f, 10.0f);
+		ImGui::Text("Shader Parameters");
+		ImGui::ColorEdit3(" Base color", (float*)&mat->base_color);
+		ImGui::SliderFloat(" Subsurface", &mat->subsurface, 0.0f, 1.0f);
+		ImGui::DragFloat3(" Subsurface Radius", &mat->subsurface_radius[0], 0.01f);
+		ImGui::ColorEdit3(" Subsurface Color", (float*)&mat->subsurface_color);
+		ImGui::SliderFloat(" Metallic", &mat->metallic, 0.0f, 1.0f);
+		ImGui::SliderFloat(" Specular", &mat->specular, 0.0f, 1.0f);
+		ImGui::SliderFloat(" Roughness", &mat->roughness, 0.0f, 1.0f);
 
-	ImGui::SliderFloat(" Occlusion", &mat->occlusion, 0.0f, 1.0f);
-	ImGui::SliderFloat(" IOR", &mat->ior, 0.0f, 3.0f);
-	ImGui::SliderFloat(" Reflection/Refraction", &mat->reflection_refratoin_ratio, 0.0f, 1.0f);
-	ImGui::Checkbox("Frensel", &mat->fresnel);
-	ImGui::SliderFloat(" Mipamap Level", &mat->mipmap_level, 0.0f, 5.0f);
-	ImGui::Checkbox("Dipole", &mat->dipole);
-	ImGui::Checkbox("Paralax Mapping", &mat->paralax_map);
-	ImGui::Checkbox("Normal Mapping", &mat->normal_mapping);
-	ImGui::Checkbox("Mipamap Auto", &mat->mipmap_auto);
-	ImGui::Checkbox("Z-Buffer", &mat->z_buffer);
-	ImGui::Checkbox("Roughness Map", &mat->rough_tex);
-	ImGui::Checkbox("Metallic Map", &mat->metallic_tex);
-	ImGui::Checkbox("Emissive", &mat->emissive);
-	ImGui::End();
+		ImGui::SliderFloat(" Occlusion", &mat->occlusion, 0.0f, 1.0f);
+		ImGui::SliderFloat(" IOR", &mat->ior, 0.0f, 3.0f);
+		ImGui::SliderFloat(" Reflection/Refraction", &mat->reflection_refratoin_ratio, 0.0f, 1.0f);
+		ImGui::Checkbox("Frensel", &mat->fresnel);
+		ImGui::SliderFloat(" Mipamap Level", &mat->mipmap_level, 0.0f, 5.0f);
+		ImGui::Checkbox("Dipole", &mat->dipole);
+		ImGui::Checkbox("Paralax Mapping", &mat->paralax_map);
+		ImGui::Checkbox("Normal Mapping", &mat->normal_mapping);
+		ImGui::Checkbox("Mipamap Auto", &mat->mipmap_auto);
+		ImGui::Checkbox("Z-Buffer", &mat->z_buffer);
+		ImGui::Checkbox("Roughness Map", &mat->rough_tex);
+		ImGui::Checkbox("Metallic Map", &mat->metallic_tex);
+		ImGui::Checkbox("Emissive", &mat->emissive);
+		ImGui::End();
+	}
 }

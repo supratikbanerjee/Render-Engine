@@ -5,7 +5,7 @@
 Transforms::Transforms()
 {
 	printf("Transforms\n");
-
+	model = glm::mat4(1.0f);
 }
 
 glm::vec3* Transforms::getRotation()
