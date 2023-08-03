@@ -6,11 +6,11 @@ layout (location = 2) in vec2 UV;
 out vec2 TexCoords;
 out vec3 WorldPosition;
 out vec3 Normals;
-
+out vec4 PosLightSpace;
 
 uniform mat4 MVP;
 uniform mat4 model;
-
+uniform mat4 lightSpaceMatrix;
 
 void main()
 {
@@ -18,4 +18,5 @@ void main()
     TexCoords = vec2(UV.x, 1-UV.y);    
     gl_Position = MVP * vec4(Vertex, 1.0);
     WorldPosition = vec3(model * vec4(Vertex, 1.0));
+    PosLightSpace = lightSpaceMatrix * vec4(WorldPosition, 1.0);
 }

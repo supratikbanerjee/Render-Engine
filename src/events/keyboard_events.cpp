@@ -9,7 +9,7 @@ KeyboardEvents::KeyboardEvents()
 }
 
 
-void KeyboardEvents::processInput(GLFWwindow *window, Camera *camera, float *deltaTime, SystemEvents *sysEvents)
+void KeyboardEvents::processInput(GLFWwindow *window, Camera *camera, float *deltaTime, SystemEvents *sysEvents, UIManager* ui)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -21,6 +21,22 @@ void KeyboardEvents::processInput(GLFWwindow *window, Camera *camera, float *del
 		camera->ProcessKeyboard(camera->LEFT, *deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		camera->ProcessKeyboard(camera->RIGHT, *deltaTime);
+
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+		if (!ImGuizmo::IsUsing())
+			ui->gizmo->gizmoType = -1;
+		
+	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+		if (!ImGuizmo::IsUsing())
+			ui->gizmo->gizmoType = ImGuizmo::OPERATION::TRANSLATE;
+
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+		if (!ImGuizmo::IsUsing())
+			ui->gizmo->gizmoType = ImGuizmo::OPERATION::ROTATE;
+
+	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS)
+		if (!ImGuizmo::IsUsing())
+			ui->gizmo->gizmoType = ImGuizmo::OPERATION::SCALE;
 
 	if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
 	{

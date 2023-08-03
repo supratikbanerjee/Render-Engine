@@ -1,5 +1,6 @@
 #ifndef MODELLOADER_H
 #define MODELLOADER_H
+#include "shadows.h"
 #include "model_manager.h"
 #include "mesh_manager.h"
 #include "metrics.h"
@@ -10,10 +11,20 @@ class ModelLoader
 {
 public:
 	
-	ModelLoader(Metrics*);
-	Model* LoadModel();
+	ModelLoader(Metrics*, ShadowMaps*);
+	
+	Entity* LoadModel();
 
 private:
+	std::string base = "Assets/";
+	std::string model_dir = "models/";
+	std::string texture_dir = "textures/";
+
+	std::string model = "dragonbody/";
+	std::string temp;
+	const char* dir;
+
+	void LoadTexture(const char*, const char*);
 	std::vector< glm::vec3 > vertices;
 	std::vector< glm::vec2 > uvs;
 	std::vector< glm::vec3 > normals;
@@ -21,23 +32,16 @@ private:
 	std::vector< glm::vec3 > bitangent;
 	std::vector< unsigned int > vertIndices;
 
-	glm::mat4 global;
-	glm::mat4 local;
-	glm::mat4 globalXlocal;
-
-	glm::mat4 identity = glm::mat4(1.0f);
-
 	vector<Vertex> vertexes;
 	vector<Texture> textures;
 	vector<unsigned int> indices;
 	Vertex vertex;
 	Texture texture;
-	int mesh_count;
-	Model root;
+	int model_count;
+	Entity root;
 	std::string default_mat = "Assets/defaults/default_material.png";
-	//vector<Mesh*> meshes;
 	TextureLoader TexLoader;
-
+	ShadowMaps* shadow;
 	Metrics* metrics;
 	int verts = 0;
 	int tris = 0;

@@ -20,7 +20,7 @@ void Mesh::CreateMesh(vector<Vertex> vertices, vector<unsigned int> indices, vec
 	setupMesh();
 }
 
-void Mesh::Draw(Shader* shader)
+void Mesh::Draw(Shader* shader, string m_name)
 {
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
@@ -28,36 +28,17 @@ void Mesh::Draw(Shader* shader)
 
 		string name = textures[i].type;
 		shader->setInt((name).c_str(), i);
+		//if (!(name).compare("shadowMap"))
+		//{
+		//	printf("%s %s %d\n", name.c_str(), m_name.c_str(), i);
+		//}
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 	}
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
-}
 
-
-void Mesh::ShaderParameters(Shader* shader)
-{
-	shader->setFloat("light_energy", light_energy);
-
-	shader->setVec3("base_color", base_color);
-	shader->setFloat("subsurface", subsurface);
-	shader->setVec3("subsurface_color", subsurface_color);
-	shader->setVec3("subsurface_radius", subsurface_radius);
-	shader->setFloat("p_metallic", metallic);
-	shader->setFloat("specular", specular);
-	shader->setFloat("p_roughness", roughness);
-	
-	shader->setFloat("occlusion", occlusion);
-	shader->setBool("dipole", dipole);
-	shader->setBool("paralax_map", paralax_map);
-	shader->setFloat("IOR", ior);
-	shader->setFloat("ref", reflection_refratoin_ratio);
-	shader->setBool("fresn", fresnel);
-	shader->setBool("normalMapping", normal_mapping);
-	shader->setFloat("mipmap_level", mipmap_level);
-	shader->setBool("mipmap_auto", mipmap_auto);
-	shader->setBool("z_buffer", z_buffer);
+	glActiveTexture(GL_TEXTURE0);
 }
 
 

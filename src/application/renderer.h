@@ -3,39 +3,49 @@
 #include <windows.h>
 #include <glad/glad.h>
 #include "../utils/shader_manager.h"
-//#include "../global_variables.h"
 #include "model_loader.h"
 #include "skybox.h"
 #include "camera.h"
 #include "scene_manager.h"
 #include "mesh_manager.h"
-#include "../utils/gizmo.h"
 #include "transforms.h"
 #include "metrics.h"
-
+#include "framebuffer.h"
+#include "shadows.h"
+#include "../RenderEngine.h"
 class Renderer
 {
 public:
-	Renderer(Metrics*, Model*, SceneManager*, Transforms*);
-	void Render(Shader *skybox_shader, Camera *camera);
+	Renderer(Metrics*, SceneManager*, Framebuffer*, RenderParams*, ShadowMaps*);
+	void Render(Skybox*);
+	
 private:
+
+	
+	glm::mat4 view;
+	glm::mat4 projection;
+	glm::mat4 lightProjection, lightView;
+	glm::mat4 lightSpaceMatrix;
+	ShadowMaps* shadow;
+	RenderParams* param;
+	Framebuffer* buffer;
 	Metrics* metrics;
-	Shader *shader;
-	Transforms *transform;
+	Shader* shader;
+	Shader* shadowShader;
 	SceneManager *scene;
 	Skybox sky;
-	Model *models;
-	Model *object;
-	Mesh *mesh;
-	glm::mat4 *model;
+	//Model *models;
+	Entity * entity;
+	glm::mat4* model;
 	GLuint query1;
 	GLuint query2;
 	
 	int active_mesh_id;
-	int display_w = 1920;
-	int display_h = 1080;
 
-	void UpdateTransform(Model*);
+	void PreRender();
+	void RenderScene(PASS);
+	void ShadowPass();
+	void UpdateTransform(Entity*);
 	void WriteRenderingMetrics();
 	void RenderQueryBegin();
 	void RenderQUeryEnd();
@@ -45,5 +55,7 @@ private:
 
 	int setPassCalls = 0;
 	int drawcalls = 0;
+
+	int shadowMapRes = 1024;
 };
 #endif

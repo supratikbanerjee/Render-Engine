@@ -2,38 +2,43 @@
 
 
 
-ModelLoader::ModelLoader(Metrics* metrics)
+ModelLoader::ModelLoader(Metrics* metrics, ShadowMaps* shadow)
 {
 	printf("Model Loader\n");
 	this->metrics = metrics;
+	this->shadow = shadow;
 }
 
-Model* ModelLoader::LoadModel()
+void ModelLoader::LoadTexture(const char* textureType, const char* typeName)
 {
-	std::string base = "Assets/";
-	std::string model_dir = "models/";
-	std::string texture_dir = "textures/";
+	if (textureType != "")
+	{
+		temp = base + texture_dir + model;
+		temp.append(textureType);
+	}
+	else
+		temp = default_mat;
+	dir = temp.c_str();
+	texture.id = TexLoader.TextureFromFile(dir);
+	texture.type = typeName;
+	textures.push_back(texture);
+}
 
-	std::string model = "dragonbody/";
-	std::string temp;
-	const char* dir;
-
+Entity* ModelLoader::LoadModel()
+{
 	const char* obj[] = { "plane_f.obj", "dragonbody.obj", "dragonchain.obj" };
 	const char* albedo[] = {"", "dragonbody_diffuse.png", "dragonchain_diffuse.png" };
 	const char* normal[] = {"", "dragonbody_normal.png", "dragonchain_normal.png" };
 	const char* metallic[] = {"", "dragonbody_metallic.png", "dragonchain_metallic.png" };
 	const char* roughness[] = {"", "dragonbody_roughness.png", "dragonchain_roughness.png" };
 	const char* ambient[] = {"", "dragonbody_ambient.png", "dragonchain_ambient.png" };
+	const char* emissive[] = { "", "DragonMain_Emit.png", "" };
 	const char* specular[] = {"", "", "" };
 	const char* depth[] = {"", "", "" };
 
-	mesh_count = (sizeof(obj) / sizeof(obj[0]));
-	root.setLocalTransform(&identity);
-	root.setGlobalTransform(&identity);
-	//int tempid = -1;
-	//root.setId(&tempid);
+	model_count = (sizeof(obj) / sizeof(obj[0]));
 
-	for (int i = 0; i < mesh_count; i++)
+	for (int i = 0; i < model_count; i++)
 	{
 		temp = base + model_dir + model;
 		temp.append(obj[i]);
@@ -50,92 +55,28 @@ Model* ModelLoader::LoadModel()
 			vertexes.push_back(vertex);
 			indices.push_back(j);
 		}
+		LoadTexture(albedo[i], "texture_diffuse");
+		LoadTexture(normal[i], "texture_normal");
+		LoadTexture(metallic[i], "texture_metallic");
+		LoadTexture(roughness[i], "texture_roughness");
+		LoadTexture(ambient[i], "texture_ambient");
+		LoadTexture(specular[i], "texture_specular");
+		LoadTexture(depth[i], "texture_depth");
+		LoadTexture(emissive[i], "texture_emissive");
 
-		// TODO: refactor texture importing
-		if (albedo[i] != "")
-		{
-			temp = base + texture_dir + model;
-			temp.append(albedo[i]);
-		}
-		else
-			temp = default_mat;
-		dir = temp.c_str();
-		texture.id = TexLoader.TextureFromFile(dir);
-		texture.type = "texture_diffuse";
-		textures.push_back(texture);
-		if (normal[i] != "")
-		{
-			temp = base + texture_dir + model;
-			temp.append(normal[i]);
-		}
-		else
-			temp = default_mat;
-		dir = temp.c_str();
-		texture.id = TexLoader.TextureFromFile(dir);
-		texture.type = "texture_normal";
+		texture.id = *shadow->GetDepthMap();
+		texture.type = "shadowMap";
 		textures.push_back(texture);
 
-		if (metallic[i] != "")
-		{
-			temp = base + texture_dir + model;
-			temp.append(metallic[i]);
-		}
-		else
-			temp = default_mat;
-		dir = temp.c_str();
-		texture.id = TexLoader.TextureFromFile(dir);
-		texture.type = "texture_metallic";
-		textures.push_back(texture);
-		if (roughness[i] != "")
-		{
-			temp = base + texture_dir + model;
-			temp.append(roughness[i]);
-		}
-		else
-			temp = default_mat;
-		dir = temp.c_str();
-		texture.id = TexLoader.TextureFromFile(dir);
-		texture.type = "texture_roughness";
-		textures.push_back(texture);
-		if (specular[i] != "")
-		{
-			temp = base + texture_dir + model;
-			temp.append(specular[i]);
-		}
-		else
-			temp = default_mat;
-		dir = temp.c_str();
-		texture.id = TexLoader.TextureFromFile(dir);
-		texture.type = "texture_specular";
-		textures.push_back(texture);
-
-		if (depth[i] != "")
-		{
-			temp = base + texture_dir + model;
-			temp.append(depth[i]);
-		}
-		else
-			temp = default_mat;
-		dir = temp.c_str();
-		texture.id = TexLoader.TextureFromFile(dir);
-		texture.type = "texture_depth";
-		textures.push_back(texture);
-		
-
-		//name = model.substr(0, model.length()-1);
 		Mesh *mesh = new Mesh();
 		Model *child = new Model();
 		mesh->CreateMesh(vertexes, indices, textures);
 		std::string name = obj[i];
 		name = std::string(obj[i], 0, name.length() - 4);
-		child->setName(&name);
+		child->setName(name);
 		child->setId(&i);
 		child->setMesh(mesh);
-		child->setLocalTransform(&identity);
-		global = *root.getGlobalTransform();
-		local = *child->getLocalTransform();
-		globalXlocal = global * local;
-		child->setGlobalTransform(&globalXlocal);
+		//child->Init();
 		root.AddChild(child);
 
 		verts += vertexes.size();

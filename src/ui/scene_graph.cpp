@@ -6,28 +6,27 @@ SceneGraph::SceneGraph(SceneManager* scene)
 {
 	printf("Scene Graph\n");
 	this->scene = scene;
-	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	/*window_flags |= ImGuiWindowFlags_NoTitleBar;
 	window_flags |= ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoSavedSettings;
-	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+	window_flags |= ImGuiWindowFlags_AlwaysAutoResize;*/
 }
 
-void SceneGraph::DrawSceneGraphUI(bool* p_open)
+void SceneGraph::DrawUI()
 {
-	ImGui::SetWindowSize(ImVec2(335, 335), ImGuiCond_FirstUseEver);
-	ImGui::Begin("Scene Graph", p_open, ImVec2(0, 0), window_flags);
+	ImGui::Begin("Scene Graph");
     if (ImGui::TreeNode("Root"))
     {
-		for (int i = 0; i < *scene->getMeshCount(); i++)
+		for (int i = 0; i < *scene->getModelCount(); i++)
 		{
 
 			ImGuiTreeNodeFlags node_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ((selection_mask & (1 << i)) ? ImGuiTreeNodeFlags_Selected : 0);
-			const char* name = scene->getMeshName(&i)->c_str();
+			const char* name = scene->getModelName(&i)->c_str();
 			bool node_open = ImGui::TreeNodeEx((void*)(intptr_t)i, node_flags, name);
 			if (ImGui::IsItemClicked())
 			{
 				node_clicked = i;
-				scene->setActiveMeshId(&i);
+				scene->setActiveModelId(&i);
 			}
 			if (node_open)
 			{

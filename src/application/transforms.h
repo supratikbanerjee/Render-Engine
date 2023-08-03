@@ -17,5 +17,10 @@ public:
 
 	glm::vec3* getRotation();
 	glm::vec3* getTranslation();
+
+	glm::mat4 model;
+
+private:
+	
 };
 #endif;

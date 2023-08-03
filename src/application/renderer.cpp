@@ -2,70 +2,99 @@
 #include "renderer.h"
 
 
-Renderer::Renderer(Metrics *metrics, Model *models, SceneManager* scene, Transforms* transform)
+Renderer::Renderer(Metrics *metrics, SceneManager* scene, Framebuffer* buffer, RenderParams* param, ShadowMaps* shadow)
 {
 	printf("Renderer\n");
-	this->transform = transform;
 	//printf("Renderer %d", transform);
-	this->models = models;
+	this->param = param;
 	this->scene = scene;
 	this->metrics = metrics;
+	this->buffer = buffer;
+	this->shadow = shadow;
 }
 
-void Renderer::Render(Shader *skybox_shader, Camera *camera)
+void Renderer::Render(Skybox *skybox)
 {
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glm::mat4 view = camera->GetViewMatrix();
-	glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)display_w / (float)display_h, 0.1f, 100.0f);
+	PreRender();
 
 	RenderQueryBegin();
-	//Draw stuff
-		
-	// TODO
-	// CHANGE RENDER MESH TO RENDER MODEL
-	// CHANGE TO CALL RENDER MESH RECURSIVELY
 
-	UpdateTransform(models);
-	for (int i = 0; i < *models->getChildCount(); i++)
-	{
-		//printf("%f %f %f\n", camera.GetCameraPosition().x, camera.GetCameraPosition().y, camera.GetCameraPosition().z);
-		object = models->getChild(&i);
-		shader = object->getShader();
-		shader->use();
-		setPassCalls++;
-		shader->setVec3("viewPos", camera->GetCameraPosition());
-		shader->setVec3("lightPos", scene->getLighPosition());
-		
-		model = models->getGlobalTransform();
-		shader->setMat4("model", *model);
-		shader->setMat4("MVP", projection*view* *model);
+	ShadowPass();
 
-		mesh = object->getMesh();
-		mesh->Draw(shader);
-		drawcalls++;
-		mesh->ShaderParameters(shader);
-	}
+	buffer->Bind();
+	
+	RenderScene(PASS::GEOMETRY);
+	
+	if(param->skybox)
+		skybox->Draw(&view, &projection);
+
+	buffer->Unbind();
 
 	RenderQUeryEnd();
 	WriteRenderingMetrics();
+}
 
-	glDepthFunc(GL_LEQUAL);
-	skybox_shader->use();
-	view = glm::mat4(glm::mat3(camera->GetViewMatrix()));
-	skybox_shader->setMat4("view", view);
-	skybox_shader->setMat4("projection", projection);
+void Renderer::PreRender()
+{
+	drawcalls = 0;
+	setPassCalls = 0;
 
-	// skybox cube
-	glBindVertexArray(sky.getSkyboxVAO());
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, sky.getCubemapTexture());
-	//glBindTexture(GL_TEXTURE_2D, sky.getCubemapTexture());
+	if (param->wireframe && !param->shaded)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (!param->wireframe && param->shaded)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	skybox_shader->setInt("skybox", 0);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-	glDepthFunc(GL_LESS);
+}
+
+
+void Renderer::RenderScene(PASS RENDERPASS)
+{
+	view = *scene->GetMainCamera()->GetViewMatrix();
+	projection = *scene->GetMainCamera()->GetProjectionMatrix();
+	for (int i = 0; i < *scene->GetModels()->getChildCount(); i++)
+	{
+		entity = scene->GetModels()->getChild(&i);
+		UpdateTransform(entity);
+
+		if (entity->type == ENTITYTYPE::MODEL)
+		{
+			Model* object = (Model*)entity;
+			if (RENDERPASS == PASS::GEOMETRY)
+				shader = object->getShader();
+			if (RENDERPASS == PASS::SHADOW)
+				shader = shadow->GetShader();
+			shader->use();
+			setPassCalls++;
+
+			shader->setMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+			model = &object->getTransform()->model;
+			shader->setMat4("model", *model);
+
+			if (RENDERPASS == PASS::GEOMETRY)
+			{
+				shader->setVec3("viewPos", *scene->GetMainCamera()->GetCameraPosition());
+				shader->setVec4("lightVector", *scene->getLightVector());
+				shader->setMat4("MVP", projection * view * *model);
+			}
+			object->Draw(RENDERPASS);
+			drawcalls++;
+		}
+	}
+}
+
+void Renderer::ShadowPass()
+{
+
+	float near_plane = 0.1f, far_plane = 100.0f;
+	//lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+	lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	lightView = glm::lookAt(glm::vec3(*scene->getLightVector()), glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	lightSpaceMatrix = lightProjection * lightView;
+
+	shadow->Bind();
+	RenderScene(PASS::SHADOW);
+	shadow->Unbind();
 }
 
 void Renderer::RenderQueryBegin()
@@ -92,17 +121,16 @@ void Renderer::WriteRenderingMetrics()
 	metrics->fragOut = &frag;
 	metrics->setPassCalls = &setPassCalls;
 	metrics->vsOut = &vert;
-	drawcalls = 0;
-	setPassCalls = 0;
 }
 
-void Renderer::UpdateTransform(Model* model)
+void Renderer::UpdateTransform(Entity* model)
 {
-	glm::mat4 global = *model->getGlobalTransform();
-	global = glm::scale(glm::mat4(1.0f), transform->scale);
-	global = glm::translate(global, transform->translation);
-	global = glm::rotate(global, transform->rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
-	global = glm::rotate(global, transform->rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-	global = glm::rotate(global, transform->rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
-	model->setGlobalTransform(&global);
+	glm::mat4 global = model->getTransform()->model;
+	
+	global = glm::translate(glm::mat4(1.0f), model->getTransform()->translation);
+	global = glm::rotate(global, model->getTransform()->rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+	global = glm::rotate(global, model->getTransform()->rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+	global = glm::rotate(global, model->getTransform()->rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+	global = glm::scale(global , model->getTransform()->scale);
+	model->getTransform()->model = global;
 }

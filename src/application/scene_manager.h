@@ -3,22 +3,30 @@
 #include <vector>
 #include <glm/glm.hpp>
 #include "model_loader.h"
+#include "camera.h"
+#include "light.h"
 
 class SceneManager
 {
 public:
-	SceneManager(Model*);
-	glm::vec3 getLighPosition();
-	void setActiveMeshId(int*);
-	int* getActiveMeshId();
-	int* getMeshCount();
-	Mesh* getActiveMesh();
-	std::string* getMeshName(int*);
+	SceneManager(Entity*, Camera*);
+	
+	void setActiveModelId(int*);
+	int* getActiveModelId();
+	int* getModelCount();
+	Entity* getActiveModel();
+	std::string* getModelName(int*);
+	Camera* GetMainCamera();
+	Entity* GetModels();
 
+
+	glm::vec4* getLightVector();
 private:
-	Model* models;
-	int active_mesh_id = 0;
-	glm::vec3 lightPos = glm::vec3(200.0f, 100.0f, 100.0f);
+	Camera* camera;
+	Entity* entities;
+	int active_model_id = 0;
+	//glm::vec4 lightPos = glm::vec4(2.0f, 1.0f, 1.0f, 0.0f);
+	Light* mainLight;
 };
 #endif
 
