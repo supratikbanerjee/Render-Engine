@@ -27,23 +27,23 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -74,12 +74,12 @@
     <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>E:\GIT\Render-Engine\Dependencies\ImGuizmo;E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glad\include;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -113,15 +113,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>E:\GIT\Render-Engine\Dependencies\ImGuizmo;E:\GIT\Render-Engine\Dependencies\glm;E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\include;E:\GIT\Render-Engine\Dependencies\glad\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\ImGuizmo;$(SolutionDir)thirdparty\imgui;$(SolutionDir)thirdparty\GLFW\include;$(SolutionDir)thirdparty\GLAD\include;$(SolutionDir)thirdparty\glm</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>E:\GIT\Render-Engine\Dependencies\glfw-3.2.1.bin.WIN64\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\GLFW\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
@@ -129,8 +129,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;WIN32;_DEBUG;_CONSOLE</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\ImGuizmo;$(SolutionDir)thirdparty\imgui;$(SolutionDir)thirdparty\GLFW\include;$(SolutionDir)thirdparty\GLAD\include;$(SolutionDir)thirdparty\glm</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\GLFW\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\application\camera.cpp" />
@@ -150,18 +155,6 @@
     <ClCompile Include="src\events\keyboard_events.cpp" />
     <ClCompile Include="src\events\mouse_events.cpp" />
     <ClCompile Include="src\events\system_events.cpp" />
-    <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\ImGuizmo\ImCurveEdit.cpp" />
-    <ClCompile Include="src\ImGuizmo\ImGradient.cpp" />
-    <ClCompile Include="src\ImGuizmo\ImGuizmo.cpp" />
-    <ClCompile Include="src\ImGuizmo\ImSequencer.cpp" />
-    <ClCompile Include="src\imgui\imgui.cpp" />
-    <ClCompile Include="src\imgui\imgui_demo.cpp" />
-    <ClCompile Include="src\imgui\imgui_draw.cpp" />
-    <ClCompile Include="src\imgui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\imgui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="src\imgui\imgui_tables.cpp" />
-    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\RenderEngine.cpp" />
     <ClCompile Include="src\ui\gizmo_ui.cpp" />
     <ClCompile Include="src\ui\menubar_ui.cpp" />
@@ -176,6 +169,19 @@
     <ClCompile Include="src\utils\shader_manager.cpp" />
     <ClCompile Include="src\utils\stbi_image.cpp" />
     <ClCompile Include="src\utils\texture_loader.cpp" />
+    <ClCompile Include="thirdparty\GLAD\src\glad.c" />
+    <ClCompile Include="thirdparty\ImGuizmo\GraphEditor.cpp" />
+    <ClCompile Include="thirdparty\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="thirdparty\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="thirdparty\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="thirdparty\ImGuizmo\ImSequencer.cpp" />
+    <ClCompile Include="thirdparty\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="thirdparty\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="thirdparty\imgui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application\camera.h" />
@@ -195,14 +201,6 @@
     <ClInclude Include="src\events\keyboard_events.h" />
     <ClInclude Include="src\events\mouse_events.h" />
     <ClInclude Include="src\events\system_events.h" />
-    <ClInclude Include="src\imgui\imconfig.h" />
-    <ClInclude Include="src\imgui\imgui.h" />
-    <ClInclude Include="src\imgui\imgui_impl_glfw.h" />
-    <ClInclude Include="src\imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\imgui\imgui_internal.h" />
-    <ClInclude Include="src\imgui\imstb_rectpack.h" />
-    <ClInclude Include="src\imgui\imstb_textedit.h" />
-    <ClInclude Include="src\imgui\imstb_truetype.h" />
     <ClInclude Include="src\RenderEngine.h" />
     <ClInclude Include="src\ui\gizmo_ui.h" />
     <ClInclude Include="src\ui\menubar_ui.h" />

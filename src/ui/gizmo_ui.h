@@ -5,7 +5,7 @@
 #include <glm\gtc\type_ptr.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
-#include "..\imgui\imgui.h"
+#include <imgui.h>
 #include "../application/scene_manager.h"
 #include <ImGuizmo.h>
 

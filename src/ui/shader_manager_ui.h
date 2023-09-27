@@ -1,6 +1,6 @@
 #ifndef SHADER_MANAGER_UI
 #define SHADER_MANAGER_UI
-#include "..\imgui\imgui.h"
+#include <imgui.h>
 #include <glm/glm.hpp>
 #include "../application/scene_manager.h"
 

@@ -1,6 +1,6 @@
 #ifndef SCENE_GRAPH_H
 #define SCENE_GRAPH_H
-#include "..\imgui\imgui.h"
+#include <imgui.h>
 #include <glm/glm.hpp>
 #include "../application/scene_manager.h"
 

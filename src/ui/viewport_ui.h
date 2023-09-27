@@ -1,6 +1,6 @@
 #pragma once
 #include "../application/framebuffer.h"
-#include "../imgui/imgui.h"
+#include <imgui.h>
 #include "gizmo_ui.h"
 
 class ViewportUI

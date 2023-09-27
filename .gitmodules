@@ -1,0 +1,9 @@
+[submodule "thirdparty/glm"]
+	path = thirdparty/glm
+	url = git@github.com:g-truc/glm.git
+[submodule "thirdparty/ImGuizmo"]
+	path = thirdparty/ImGuizmo
+	url = git@github.com:CedricGuillemet/ImGuizmo.git
+[submodule "thirdparty/imgui"]
+	path = thirdparty/imgui
+	url = git@github.com:ocornut/imgui.git

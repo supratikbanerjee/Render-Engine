@@ -10,9 +10,9 @@
 #include "gizmo_ui.h"
 #include "menubar_ui.h"
 
-#include "..\imgui\imgui.h"
-#include "..\imgui\imgui_impl_glfw.h"
-#include "..\imgui\imgui_impl_opengl3.h"
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
 #include "../application/transforms.h"
 #include "../application/scene_manager.h"

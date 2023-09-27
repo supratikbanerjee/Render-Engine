@@ -1,6 +1,6 @@
 #ifndef TRANSFORMS_MANAGER_UI_H
 #define TRANSFORMS_MANAGER_UI_H
-#include "..\imgui\imgui.h"
+#include <imgui.h>
 #include "../application/scene_manager.h"
 #include <glm/glm.hpp>
 
